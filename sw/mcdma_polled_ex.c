@@ -64,6 +64,7 @@
  * ***************************************************************************
  */
 /***************************** Include Files *********************************/
+
 #include "xmcdma.h"
 #include "xparameters.h"
 #include "xdebug.h"
@@ -128,13 +129,13 @@
 #define TX_BD_SPACE_BASE	(SG_BASE_ADDR)
 #define RX_BD_SPACE_BASE	(SG_BASE_ADDR + 0x1000)
 
-//#define TX_BUFFER_BASE		(MEM_BASE_ADDR)
-#define RX_BUFFER_BASE		(MEM_BASE_ADDR + 0x4000)
-#define TX_BUFFER_BASE		RX_BUFFER_BASE
+#define TX_BUFFER_BASE		(MEM_BASE_ADDR)
+//#define RX_BUFFER_BASE		(MEM_BASE_ADDR + 0x4000)
+#define RX_BUFFER_BASE		(MEM_BASE_ADDR)
 
 
 #define NUMBER_OF_BDS_PER_PKT		1
-#define NUMBER_OF_PKTS_TO_TRANSFER 	1
+#define NUMBER_OF_PKTS_TO_TRANSFER 	2
 #define NUMBER_OF_BDS_TO_TRANSFER	(NUMBER_OF_PKTS_TO_TRANSFER * NUMBER_OF_BDS_PER_PKT)
 
 #define MAX_PKT_LEN		256*4   // bytes
@@ -142,13 +143,11 @@
 
 #define NUM_MAX_CHANNELS	16
 
-//#define TEST_START_VALUE	0xC
-
 #define POLL_TIMEOUT_COUNTER    1000000U
 
-int TxPattern[NUM_MAX_CHANNELS + 1];
-int RxPattern[NUM_MAX_CHANNELS + 1];
-int TestStartValue[] = {0xC, 0xB, 0x3, 0x55, 0x33, 0x20, 0x80, 0x66, 0x88};
+//int TxPattern[NUM_MAX_CHANNELS + 1];
+//int RxPattern[NUM_MAX_CHANNELS + 1];
+//int TestStartValue[] = {0xC, 0xB, 0x3, 0x55, 0x33, 0x20, 0x80, 0x66, 0x88};
 
 /**************************** Type Definitions *******************************/
 
@@ -159,11 +158,6 @@ int TestStartValue[] = {0xC, 0xB, 0x3, 0x55, 0x33, 0x20, 0x80, 0x66, 0x88};
 /************************** Function Prototypes ******************************/
 static int RxSetup(XMcdma *McDmaInstPtr);
 static int TxSetup(XMcdma *McDmaInstPtr);
-static int SendPacket(XMcdma *McDmaInstPtr);
-//static int CheckData(u8 *RxPacket, int ByteCount, u32 ChanId);
-static int CheckData(u8 *RxPacket, u32 ByteCount, u32 ChanId);
-static int CheckDmaResult(XMcdma *McDmaInstPtr, u32 Chan_id);
-static void Mcdma_Poll(XMcdma *McDmaInstPtr);
 
 /************************** Variable Definitions *****************************/
 /*
@@ -225,21 +219,13 @@ int main(void)
 #endif
 
 
-#ifndef SDT
-	Mcdma_Config = XMcdma_LookupConfig(MCDMA_DEV_ID);
-	if (!Mcdma_Config) {
-		xil_printf("No config found for %d\r\n", MCDMA_DEV_ID);
 
-		return XST_FAILURE;
-	}
-
-#else
 	Mcdma_Config = XMcdma_LookupConfig(MCDMA_BASE_ADDR);
 	if (!Mcdma_Config) {
 		xil_printf("No config found for %llx\r\n", MCDMA_BASE_ADDR);
 		return XST_FAILURE;
 	}
-#endif
+
 
 	Status = XMcDma_CfgInitialize(&AxiMcdma, Mcdma_Config);
 	if (Status != XST_SUCCESS) {
@@ -251,6 +237,7 @@ int main(void)
 	num_channels = Mcdma_Config->RxNumChannels;
 	
 
+//while(1) {
 	Status = RxSetup(&AxiMcdma);
 	if (Status != XST_SUCCESS) {
 		return XST_FAILURE;
@@ -261,53 +248,22 @@ int main(void)
 	if (Status != XST_SUCCESS) {
 		return XST_FAILURE;
 	}
-
+//}
 
 /*
-    while (1) {
-	    Status = RxSetup(&AxiMcdma);
-	    if (Status != XST_SUCCESS) {
-		    return XST_FAILURE;
-	    }
-        usleep(1U);
-    }
-
-
     // adg
     while (TimeOut) {
 		TimeOut--;
 		usleep(1U);
 	}
 
-
-	Status = SendPacket(&AxiMcdma);
-	if (Status != XST_SUCCESS) {
-		xil_printf("Failed send packet\r\n");
-		return XST_FAILURE;
-	}
-*/
-/*
-	// Wait for transfer to complete or 1usec * 10^6 iterations of timeout occurs 
-	while (TimeOut) {
-		Mcdma_Poll(&AxiMcdma);
-		if (RxDone >= NUMBER_OF_BDS_TO_TRANSFER * num_channels) {
-			break;
-		}
-		TimeOut--;
-		usleep(1U);
-	}
-
-	xil_printf("AXI MCDMA SG Polling Test %s\r\n",
-		   (Status == XST_SUCCESS) ? "passed" : "failed");
-
-	xil_printf("--- Exiting main() --- \r\n");
-
 	if (Status != XST_SUCCESS) {
 		return XST_FAILURE;
 	}
-
-	return XST_SUCCESS;
 */
+	
+    return XST_SUCCESS;
+
 }
 
 /*****************************************************************************/
@@ -484,166 +440,4 @@ static int TxSetup(XMcdma *McDmaInstPtr)
 	return XST_SUCCESS;
 }
 
-/*****************************************************************************/
-/*
-*
-* This function checks data buffer after the DMA transfer is finished.
-*
-* @param	RxPacket is the pointer to Rx packet.
-* @param	ByteCount is the length of Rx packet.
-* @param	ChanId is the MCDMA channel id to be worked on.
-*
-* @return	- XST_SUCCESS if validation is successful
-*		- XST_FAILURE if validation is failure.
-*
-* @note		None.
-*
-******************************************************************************/
-//static int CheckData(u8 *RxPacket, int ByteCount, u32 ChanId)
-static int CheckData(u8 *RxPacket, u32 ByteCount, u32 ChanId)
-{
-	u32 Index;
-	u8 Value;
 
-
-	Value = TestStartValue[ChanId] + RxPattern[ChanId]++;
-
-	for (Index = 0; Index < ByteCount; Index++) {
-		if (RxPacket[Index] != Value) {
-			xil_printf("Data error : %x/%x\r\n",
-				   (unsigned int)RxPacket[Index],
-				   (unsigned int)Value);
-			return XST_FAILURE;
-			break;
-		}
-		Value = (Value + 1) & 0xFF;
-	}
-
-
-	return XST_SUCCESS;
-}
-
-/*****************************************************************************/
-/**
-*
-* This function waits until the DMA transaction is finished, checks data,
-* and cleans up.
-*
-* @param	McDmaInstPtr is the instance pointer to the AXI MCDMA engine.
-* @Chan_id	ChanId is the MCDMA channel id to be worked on.
-*
-* @return	- XST_SUCCESS if DMA transfer is successful and data is correct,
-*		- XST_FAILURE if fails.
-*
-* @note		None.
-*
-******************************************************************************/
-static int CheckDmaResult(XMcdma *McDmaInstPtr, u32 Chan_id)
-{
-	XMcdma_ChanCtrl *Rx_Chan = 0, *Tx_Chan = 0;
-	XMcdma_Bd *BdPtr1;
-	u8 *RxPacket;
-	int ProcessedBdCount, i;
-	int MaxTransferBytes;
-	int RxPacketLength;
-
-	Tx_Chan = XMcdma_GetMcdmaTxChan(McDmaInstPtr, Chan_id);
-	ProcessedBdCount = XMcdma_BdChainFromHW(Tx_Chan,
-						0xFFFF,
-						&BdPtr1);
-	TxDone += ProcessedBdCount;
-
-	Rx_Chan = XMcdma_GetMcdmaRxChan(McDmaInstPtr, Chan_id);
-	ProcessedBdCount = XMcdma_BdChainFromHW(Rx_Chan,
-						0xFFFF,
-						&BdPtr1);
-	RxDone += ProcessedBdCount;
-	MaxTransferBytes = MAX_TRANSFER_LEN(McDmaInstPtr->Config.MaxTransferlen - 1);
-
-	/* Check received data */
-	for (i = 0; i < ProcessedBdCount; i++) {
-		RxPacket = (void *)XMcdma_BdRead64(BdPtr1, XMCDMA_BD_BUFA_OFFSET);
-		RxPacketLength = XMcDma_BdGetActualLength(BdPtr1, MaxTransferBytes);
-		/* Invalidate the DestBuffer before receiving the data,
-		 * in case the data cache is enabled
-		 */
-		if (!McDmaInstPtr->Config.IsRxCacheCoherent) {
-			Xil_DCacheInvalidateRange((UINTPTR)RxPacket, RxPacketLength);
-		}
-
-		if (CheckData((u8 *) RxPacket, RxPacketLength, Chan_id) != XST_SUCCESS) {
-			xil_printf("Data check failed for the Chan %x\n\r", Chan_id);
-			return XST_FAILURE;
-		}
-		BdPtr1 = (XMcdma_Bd *) XMcdma_BdRead64(BdPtr1, XMCDMA_BD_NDESC_OFFSET);
-	}
-
-	return XST_SUCCESS;
-}
-
-
-static void Mcdma_Poll(XMcdma *McDmaInstPtr)
-{
-	u16 Chan_id = 1;
-	u32 i;
-	u32 Chan_SerMask;
-
-	Chan_SerMask = XMcdma_ReadReg(McDmaInstPtr->Config.BaseAddress,
-				      XMCDMA_RX_OFFSET + XMCDMA_RXCH_SER_OFFSET);
-
-	for (i = 1, Chan_id = 1; i != 0 && i <= Chan_SerMask; i <<= 1, Chan_id++)
-		if (Chan_SerMask & i) {
-			CheckDmaResult(&AxiMcdma, Chan_id);
-		}
-}
-
-
-static int SendPacket(XMcdma *McDmaInstPtr)
-{
-	XMcdma_ChanCtrl *Tx_Chan = NULL;
-	u32 Index, Pkts, Index1;
-	XMcdma_Bd *BdCurPtr;
-	u32 Status;
-	u8 *TxPacket;
-	u8 Value;
-	u32 ChanId;
-
-	for (ChanId = 1; ChanId <= num_channels; ChanId++) {
-		Tx_Chan = XMcdma_GetMcdmaTxChan(McDmaInstPtr, ChanId);
-
-		BdCurPtr = XMcdma_GetChanCurBd(Tx_Chan);
-		for (Index = 0; Index < NUMBER_OF_PKTS_TO_TRANSFER; Index++) {
-			for (Pkts = 0; Pkts < NUMBER_OF_BDS_PER_PKT; Pkts++) {
-				u32 CrBits = 0;
-
-				Value = TestStartValue[ChanId] + TxPattern[ChanId]++;
-				TxPacket = (u8 *)XMcdma_BdRead64(BdCurPtr, XMCDMA_BD_BUFA_OFFSET);
-				for (Index1 = 0; Index1 < MAX_PKT_LEN; Index1++) { 
-					TxPacket[Index1] = Value; // adg stuck in here
-
-					Value = (Value + 1) & 0xFF;
-				}
-				Xil_DCacheFlushRange((UINTPTR)TxPacket, MAX_PKT_LEN);
-
-				if (Pkts == 0) {
-					CrBits |= XMCDMA_BD_CTRL_SOF_MASK;
-				}
-
-				if (Pkts == (NUMBER_OF_BDS_PER_PKT - 1)) {
-					CrBits |= XMCDMA_BD_CTRL_EOF_MASK;
-				}
-				XMcDma_BdSetCtrl(BdCurPtr, CrBits);
-				XMCDMA_CACHE_FLUSH((UINTPTR)(BdCurPtr));
-				BdCurPtr = (XMcdma_Bd *)XMcdma_BdChainNextBd(Tx_Chan, BdCurPtr);
-			}
-		}
-
-		Status = XMcDma_ChanToHw(Tx_Chan);
-		if (Status != XST_SUCCESS) {
-			xil_printf("XMcDma_ChanToHw failed for Channel %d\n\r", ChanId);
-			return XST_FAILURE;
-		}
-	}
-
-	return XST_SUCCESS;
-}
