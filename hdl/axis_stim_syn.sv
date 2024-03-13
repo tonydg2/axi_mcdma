@@ -45,6 +45,7 @@ assign tready = M_AXIS_tready;
 //-------------------------------------------------------------------------------------------------
 
   logic [7:0] cntr = 0, hiCnt = 0;
+  logic tdest_i = 1;
 
   always @(posedge clk) begin 
     if (rst) begin
@@ -54,6 +55,7 @@ assign tready = M_AXIS_tready;
       cntr <= cntr + 1;
     end
     if (cntr == '1) tvalid <= ~tvalid;
+    if ((cntr == '1) & (tvalid == 0)) tdest_i <= ~tdest_i;
   end
 
   always @(posedge clk) begin 
@@ -65,7 +67,7 @@ assign tready = M_AXIS_tready;
   //assign tdata = (!rst)? {24'hAA6600,cntr}:'0;
   assign tdata = (!rst)? {8'hAA,hiCnt,8'h00,cntr}:'0;
   assign tlast = ((tvalid == 1) & (cntr == '1))? '1:0;
-  assign tdest = 0;
+  assign tdest = {3'h0,tdest_i};
 
 // Register signals before sending to IP!!!!!
 // without this, there were issues with last word of frame

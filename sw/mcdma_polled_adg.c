@@ -138,7 +138,7 @@
  a single TLAST at end of last frame. With the opposite, NUMBER_OF_PKTS_TO_TRANSFER=2 and NUMBER_OF_BDS_PER_PKT=1, two
  frames are transferred both with TLAST each*/
 #define NUMBER_OF_BDS_PER_PKT		2
-#define NUMBER_OF_PKTS_TO_TRANSFER 	2
+#define NUMBER_OF_PKTS_TO_TRANSFER 	1
 #define NUMBER_OF_BDS_TO_TRANSFER	(NUMBER_OF_PKTS_TO_TRANSFER * NUMBER_OF_BDS_PER_PKT)
 
 #define MAX_PKT_LEN		256*4   // bytes
@@ -509,13 +509,13 @@ static int SendPacket(XMcdma *McDmaInstPtr)
 				BdCurPtr = (XMcdma_Bd *)XMcdma_BdChainNextBd(Tx_Chan, BdCurPtr);
 			}
 		}
-        if (ChanId == 1) {
+        //if (ChanId == 1) {
 		Status = XMcDma_ChanToHw(Tx_Chan);
 		if (Status != XST_SUCCESS) {
 			xil_printf("XMcDma_ChanToHw failed for Channel %d\n\r", ChanId);
 			return XST_FAILURE;
 		}
-        }
+        //}
 	}
 
 	return XST_SUCCESS;
