@@ -43,11 +43,15 @@ if {"-verbose" in $argv} {
   set buildCmd "vivado -mode batch -source ./build.tcl -nojournal -notrace -tclargs $argv" 
 }
 
-if {[catch {exec sh -c "source $VivadoSettingsFile; $buildCmd" >@stdout} cmdErr]} {
+## sh points to dash instead of bash by default in Ubuntu
+#if {[catch {exec sh -c "source $VivadoSettingsFile; $buildCmd" >@stdout} cmdErr]} {
+if {[catch {exec /bin/bash -c "source $VivadoSettingsFile; $buildCmd" >@stdout} cmdErr]} {
   if {$genProj} {
     puts "\n\nERROR: FAILURE - Project\n\n$cmdErr\n"
+    exit
   } else {
     puts "\n\nERROR: BUILD FAILURE\n\n $cmdErr\n"
+    exit
   }
 }
 
