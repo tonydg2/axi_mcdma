@@ -3,10 +3,13 @@
 # -name, -no_bd
 
 set startTime [clock seconds]
-
-set VivadoPath "/media/tony/TDG_512/Xilinx/Vivado/2023.2"
-
 set TOP "top_bd_wrapper" ;# top entity name or image/bit file generated name...
+set VivadoPath "/mnt/TDG_512/xilinx/Vivado/2023.2"
+
+if {![file exist $VivadoPath]} {
+  puts "ERROR - Check Vivado install path.\n\"$VivadoPath\" DOES NOT EXIST"
+  exit
+}
 
 set genProj FALSE
 if {"-proj" in $argv} {
