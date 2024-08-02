@@ -8,3 +8,9 @@ scripts folder
 ## SW build:
 sw/scripts folder
 > vitis -s builder.py 
+
+
+### Debug config
+uart/com : sudo gtkterm
+/dev/ttyUSB1 115200-8-N-1
+
