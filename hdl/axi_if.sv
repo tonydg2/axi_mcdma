@@ -14,6 +14,7 @@ interface axi_if # (
   logic [7:0]                 arlen     ;
   logic [0:0]                 arlock    ;
   logic [2:0]                 arprot    ;
+  logic [3:0]                 arregion  ;
   logic [3:0]                 arqos     ;
   logic                       arready   ;
   logic [2:0]                 arsize    ;
@@ -26,6 +27,7 @@ interface axi_if # (
   logic [7:0]                 awlen     ;
   logic [0:0]                 awlock    ;
   logic [2:0]                 awprot    ;
+  logic [3:0]                 awregion  ;
   logic [3:0]                 awqos     ;
   logic                       awready   ;
   logic [2:0]                 awsize    ;
@@ -59,10 +61,11 @@ interface axi_if # (
     output  arlen   ,
     output  arlock  ,
     output  arprot  ,
+    output  arregion,
     output  arqos   ,
     input   arready ,
     output  arsize  ,
-    output  aruser  ,
+    //output  aruser  ,
     output  arvalid ,
     output  awaddr  ,
     output  awburst ,
@@ -71,10 +74,11 @@ interface axi_if # (
     output  awlen   ,
     output  awlock  ,
     output  awprot  ,
+    output  awregion,
     output  awqos   ,
     input   awready ,
     output  awsize  ,
-    output  awuser  ,
+    //output  awuser  ,
     output  awvalid ,
     //input bid     ,
     output  bready  ,
@@ -90,7 +94,7 @@ interface axi_if # (
     output  wlast   ,
     input   wready  ,
     output  wstrb   ,
-    output  wvalid  ,
+    output  wvalid
   );
 
   // Sink (slave)
@@ -104,10 +108,11 @@ interface axi_if # (
     input   arlen   ,
     input   arlock  ,
     input   arprot  ,
+    input   arregion,
     input   arqos   ,
     output  arready ,
     input   arsize  ,
-    input   aruser  ,
+    //input   aruser  ,
     input   arvalid ,
     input   awaddr  ,
     input   awburst ,
@@ -116,10 +121,11 @@ interface axi_if # (
     input   awlen   ,
     input   awlock  ,
     input   awprot  ,
+    input   awregion,
     input   awqos   ,
     output  awready ,
     input   awsize  ,
-    input   awuser  ,
+    //input   awuser  ,
     input   awvalid ,
     //output  bid     ,
     input   bready  ,
@@ -135,7 +141,7 @@ interface axi_if # (
     input   wlast   ,
     output  wready  ,
     input   wstrb   ,
-    input   wvalid  ,
+    input   wvalid
   );
 
 endinterface 
