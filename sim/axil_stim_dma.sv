@@ -71,21 +71,6 @@ localparam S_CH1TD  = 12'h590;
     // Test rd/wr reg's
     //---------------------------------------------------------------------------------------------
     
-    //WR(ADDR_REG + 8'h18, 32'hAAAA_0666);
-    //RD(ADDR_REG + 8'h18);
-
-    //RD(ADDR_REG + 8'h0C);
-    //RD(ADDR_REG + 8'h0C);#1us;
-    //RD(ADDR_REG + 8'h0C);#1us;
-    //RD(ADDR_REG + 8'h10);#1us;
-    //RD(ADDR_REG + 8'h18);#1us;
-    
-//    WR(ADDR_REG + 8'h18, 32'hBBBB0666);
-//    //RD(ADDR_REG + 8'h18);#1us;
-//    //RD(ADDR_REG + 8'h0C);#1us;
-//    //RD(ADDR_REG + 8'h0C);#1us;
-//    WR(ADDR_REG + 8'h18, 32'hAAAA0666);
-//    //RD(ADDR_REG + 8'h18);#1us;
     WR(ADDR_REG + 8'h18, 32'hAAAA0777); // ADDR_REG = 32'hA001_2000
     WR(ADDR_REG + 8'h1C, 32'hAAAA1777);
     WR(ADDR_REG + 8'h20, 32'hAAAA2777);
@@ -107,46 +92,7 @@ localparam S_CH1TD  = 12'h590;
     RD(ADDR_REG + 8'h34);
     RD(ADDR_REG + 8'h38);
     RD(ADDR_REG + 8'h3C);
-
-
-//    WR(ADDR_REG + 8'h38, 32'hAAAA8777);#1us;//#100ns;
-//    WR(ADDR_REG + 8'h3C, 32'hAAAA9777);#1us;//#100ns;
-
-//    WR(ADDR_REG + 8'h38, 32'hAAAA8777);
-//    WR(ADDR_REG + 8'h38, 32'hAAAA8777);
-//    WR(ADDR_REG + 8'h38, 32'hAAAA8777);
-//    WR(ADDR_REG + 8'h38, 32'hAAAA8777);
-//    WR(ADDR_REG + 8'h38, 32'hAAAA8777);
-//    WR(ADDR_REG + 8'h38, 32'hAAAA8777);
-//    
-//    WR(ADDR_REG + 8'h3C, 32'hAAAA9777);
-//    WR(ADDR_REG + 8'h3C, 32'hAAAA9777);
-//    WR(ADDR_REG + 8'h3C, 32'hAAAA9777);
-//    WR(ADDR_REG + 8'h3C, 32'hAAAA9777);
-//    WR(ADDR_REG + 8'h3C, 32'hAAAA9777);
-//    WR(ADDR_REG + 8'h3C, 32'hAAAA9777);
-    
-//    RD(ADDR_REG + 8'h18);
-//    RD(ADDR_REG + 8'h1C);
-//    RD(ADDR_REG + 8'h20);
-//    RD(ADDR_REG + 8'h24);
-//    RD(ADDR_REG + 8'h28);
-//    RD(ADDR_REG + 8'h2C);
-//    RD(ADDR_REG + 8'h30);
-//    RD(ADDR_REG + 8'h34);
-//    RD(ADDR_REG + 8'h38);
-//    RD(ADDR_REG + 8'h38);
-//    RD(ADDR_REG + 8'h38);
-//    RD(ADDR_REG + 8'h38);
-//    RD(ADDR_REG + 8'h38);
-//    RD(ADDR_REG + 8'h38);
-//    RD(ADDR_REG + 8'h3C);
-//    RD(ADDR_REG + 8'h3C);
-//    RD(ADDR_REG + 8'h3C);
-//    RD(ADDR_REG + 8'h3C);
-//    RD(ADDR_REG + 8'h3C);
-//    RD(ADDR_REG + 8'h3C);
-    #1us;$stop;
+    #1us;//$stop;
 
     //---------------------------------------------------------------------------------------------
     // load/write descriptors into SG bram
@@ -200,10 +146,6 @@ localparam S_CH1TD  = 12'h590;
     WR({ADDR_DMA + M_CH1TD}, {ADDR_SG + NXDS_M1});  // TD for ch1
 
 
-
-
-
-
 //    //MM2S DMA config
 //    // use identical descriptors from S2MM, in different location, should read the data that was written by S2MM and populate the M_AXIS_MM2S interface
 //    WR({ADDR_DMA + MM2S_CD}, {ADDR_SG,8'h80});  //
@@ -211,10 +153,8 @@ localparam S_CH1TD  = 12'h590;
 //    WR({ADDR_DMA + MM2S_TD}, {ADDR_SG,8'hC0});  //
 
     
-    
-    
 //    wait(dma_top_tb.top_bd_wrapper_i.s2mm_introut_0 == 1'b1);
-
+  #5us;$stop;
   end 
 
 //-------------------------------------------------------------------------------------------------

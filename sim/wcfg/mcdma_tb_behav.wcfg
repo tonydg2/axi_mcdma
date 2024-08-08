@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="mcdma_tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="\$unit_xpm_cdc_sv_220102727 " />
+            <top_module name="axi_bram_ctrl_funcs" />
+            <top_module name="axi_mcdma_pkg" />
+            <top_module name="axi_msg_pkg" />
+            <top_module name="glbl" />
+            <top_module name="lib_pkg" />
+            <top_module name="mcdma_tb" />
+            <top_module name="vcomponents" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0.000 ns"></ZoomStartTime>
+      <ZoomEndTime time="10,000.001 ns"></ZoomEndTime>
+      <Cursor1Time time="2,229.130 ns"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="241"></NameColumnWidth>
+      <ValueColumnWidth column_width="156"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="40" />
+   <wvobject type="protoinst" fp_name="/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axi_smc/M00_AXI">
+      <obj_property name="ElementShortName">M00_AXI</obj_property>
+      <obj_property name="ObjectShortName">M00_AXI</obj_property>
+   </wvobject>
+   <wvobject type="protoinst" fp_name="/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axi_smc/M01_AXI">
+      <obj_property name="ElementShortName">M01_AXI</obj_property>
+      <obj_property name="ObjectShortName">M01_AXI</obj_property>
+   </wvobject>
+   <wvobject type="protoinst" fp_name="/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axi_smc/M02_AXI">
+      <obj_property name="children_use_element_short_name">true</obj_property>
+      <obj_property name="WaveformStyle">STYLE_ENUM_TRANSACTION</obj_property>
+      <obj_property name="EnumTransactionColorTable">0=blank 1=#D399FF 2=pink</obj_property>
+      <obj_property name="EnumTransactionValueTable">0=blank;1=Read;2=Write;3=Read/Write</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+      <obj_property name="CustomSignalColor">turquoise</obj_property>
+      <obj_property name="Render_Data">/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axi_smc/M02_AXI.readWriteSummary</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      <obj_property name="CellHeight">36</obj_property>
+      <obj_property name="ElementShortName">M02_AXI</obj_property>
+      <obj_property name="ObjectShortName">M02_AXI</obj_property>
+   </wvobject>
+   <wvobject type="protoinst" fp_name="/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axi_smc/S00_AXI">
+      <obj_property name="children_use_element_short_name">true</obj_property>
+      <obj_property name="WaveformStyle">STYLE_ENUM_TRANSACTION</obj_property>
+      <obj_property name="EnumTransactionColorTable">0=blank 1=#D399FF 2=pink</obj_property>
+      <obj_property name="EnumTransactionValueTable">0=blank;1=Read;2=Write;3=Read/Write</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+      <obj_property name="CustomSignalColor">turquoise</obj_property>
+      <obj_property name="Render_Data">/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axi_smc/S00_AXI.readWriteSummary</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      <obj_property name="CellHeight">36</obj_property>
+      <obj_property name="ElementShortName">S00_AXI</obj_property>
+      <obj_property name="ObjectShortName">S00_AXI</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mcdma_tb/axi_dwidth_converter_axi4_64to128_i/s_axi_araddr">
+      <obj_property name="ElementShortName">s_axi_araddr[39:0]</obj_property>
+      <obj_property name="ObjectShortName">s_axi_araddr[39:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mcdma_tb/axi_dwidth_converter_axi4_64to128_i/s_axi_arburst">
+      <obj_property name="ElementShortName">s_axi_arburst[1:0]</obj_property>
+      <obj_property name="ObjectShortName">s_axi_arburst[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mcdma_tb/axi_dwidth_converter_axi4_64to128_i/s_axi_arcache">
+      <obj_property name="ElementShortName">s_axi_arcache[3:0]</obj_property>
+      <obj_property name="ObjectShortName">s_axi_arcache[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mcdma_tb/axi_dwidth_converter_axi4_64to128_i/s_axi_aresetn">
+      <obj_property name="ElementShortName">s_axi_aresetn</obj_property>
+      <obj_property name="ObjectShortName">s_axi_aresetn</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mcdma_tb/axi_dwidth_converter_axi4_64to128_i/s_axi_arlen">
+      <obj_property name="ElementShortName">s_axi_arlen[7:0]</obj_property>
+      <obj_property name="ObjectShortName">s_axi_arlen[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mcdma_tb/axi_dwidth_converter_axi4_64to128_i/s_axi_arlock">
+      <obj_property name="ElementShortName">s_axi_arlock[0:0]</obj_property>
+      <obj_property name="ObjectShortName">s_axi_arlock[0:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mcdma_tb/axi_dwidth_converter_axi4_64to128_i/s_axi_arprot">
+      <obj_property name="ElementShortName">s_axi_arprot[2:0]</obj_property>
+      <obj_property name="ObjectShortName">s_axi_arprot[2:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mcdma_tb/axi_dwidth_converter_axi4_64to128_i/s_axi_arqos">
+      <obj_property name="ElementShortName">s_axi_arqos[3:0]</obj_property>
+      <obj_property name="ObjectShortName">s_axi_arqos[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mcdma_tb/axi_dwidth_converter_axi4_64to128_i/s_axi_arready">
+      <obj_property name="ElementShortName">s_axi_arready</obj_property>
+      <obj_property name="ObjectShortName">s_axi_arready</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mcdma_tb/axi_dwidth_converter_axi4_64to128_i/s_axi_arregion">
+      <obj_property name="ElementShortName">s_axi_arregion[3:0]</obj_property>
+      <obj_property name="ObjectShortName">s_axi_arregion[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mcdma_tb/axi_dwidth_converter_axi4_64to128_i/s_axi_arsize">
+      <obj_property name="ElementShortName">s_axi_arsize[2:0]</obj_property>
+      <obj_property name="ObjectShortName">s_axi_arsize[2:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mcdma_tb/axi_dwidth_converter_axi4_64to128_i/s_axi_arvalid">
+      <obj_property name="ElementShortName">s_axi_arvalid</obj_property>
+      <obj_property name="ObjectShortName">s_axi_arvalid</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mcdma_tb/axi_dwidth_converter_axi4_64to128_i/s_axi_awaddr">
+      <obj_property name="ElementShortName">s_axi_awaddr[39:0]</obj_property>
+      <obj_property name="ObjectShortName">s_axi_awaddr[39:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mcdma_tb/axi_dwidth_converter_axi4_64to128_i/s_axi_awburst">
+      <obj_property name="ElementShortName">s_axi_awburst[1:0]</obj_property>
+      <obj_property name="ObjectShortName">s_axi_awburst[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mcdma_tb/axi_dwidth_converter_axi4_64to128_i/s_axi_awcache">
+      <obj_property name="ElementShortName">s_axi_awcache[3:0]</obj_property>
+      <obj_property name="ObjectShortName">s_axi_awcache[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mcdma_tb/axi_dwidth_converter_axi4_64to128_i/s_axi_awlen">
+      <obj_property name="ElementShortName">s_axi_awlen[7:0]</obj_property>
+      <obj_property name="ObjectShortName">s_axi_awlen[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mcdma_tb/axi_dwidth_converter_axi4_64to128_i/s_axi_awlock">
+      <obj_property name="ElementShortName">s_axi_awlock[0:0]</obj_property>
+      <obj_property name="ObjectShortName">s_axi_awlock[0:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mcdma_tb/axi_dwidth_converter_axi4_64to128_i/s_axi_awprot">
+      <obj_property name="ElementShortName">s_axi_awprot[2:0]</obj_property>
+      <obj_property name="ObjectShortName">s_axi_awprot[2:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mcdma_tb/axi_dwidth_converter_axi4_64to128_i/s_axi_awqos">
+      <obj_property name="ElementShortName">s_axi_awqos[3:0]</obj_property>
+      <obj_property name="ObjectShortName">s_axi_awqos[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mcdma_tb/axi_dwidth_converter_axi4_64to128_i/s_axi_awready">
+      <obj_property name="ElementShortName">s_axi_awready</obj_property>
+      <obj_property name="ObjectShortName">s_axi_awready</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mcdma_tb/axi_dwidth_converter_axi4_64to128_i/s_axi_awregion">
+      <obj_property name="ElementShortName">s_axi_awregion[3:0]</obj_property>
+      <obj_property name="ObjectShortName">s_axi_awregion[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mcdma_tb/axi_dwidth_converter_axi4_64to128_i/s_axi_awsize">
+      <obj_property name="ElementShortName">s_axi_awsize[2:0]</obj_property>
+      <obj_property name="ObjectShortName">s_axi_awsize[2:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mcdma_tb/axi_dwidth_converter_axi4_64to128_i/s_axi_awvalid">
+      <obj_property name="ElementShortName">s_axi_awvalid</obj_property>
+      <obj_property name="ObjectShortName">s_axi_awvalid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mcdma_tb/axi_dwidth_converter_axi4_64to128_i/s_axi_bready">
+      <obj_property name="ElementShortName">s_axi_bready</obj_property>
+      <obj_property name="ObjectShortName">s_axi_bready</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mcdma_tb/axi_dwidth_converter_axi4_64to128_i/s_axi_bresp">
+      <obj_property name="ElementShortName">s_axi_bresp[1:0]</obj_property>
+      <obj_property name="ObjectShortName">s_axi_bresp[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mcdma_tb/axi_dwidth_converter_axi4_64to128_i/s_axi_bvalid">
+      <obj_property name="ElementShortName">s_axi_bvalid</obj_property>
+      <obj_property name="ObjectShortName">s_axi_bvalid</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mcdma_tb/axi_dwidth_converter_axi4_64to128_i/s_axi_rdata">
+      <obj_property name="ElementShortName">s_axi_rdata[63:0]</obj_property>
+      <obj_property name="ObjectShortName">s_axi_rdata[63:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mcdma_tb/axi_dwidth_converter_axi4_64to128_i/s_axi_rlast">
+      <obj_property name="ElementShortName">s_axi_rlast</obj_property>
+      <obj_property name="ObjectShortName">s_axi_rlast</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mcdma_tb/axi_dwidth_converter_axi4_64to128_i/s_axi_rready">
+      <obj_property name="ElementShortName">s_axi_rready</obj_property>
+      <obj_property name="ObjectShortName">s_axi_rready</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mcdma_tb/axi_dwidth_converter_axi4_64to128_i/s_axi_rresp">
+      <obj_property name="ElementShortName">s_axi_rresp[1:0]</obj_property>
+      <obj_property name="ObjectShortName">s_axi_rresp[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mcdma_tb/axi_dwidth_converter_axi4_64to128_i/s_axi_rvalid">
+      <obj_property name="ElementShortName">s_axi_rvalid</obj_property>
+      <obj_property name="ObjectShortName">s_axi_rvalid</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mcdma_tb/axi_dwidth_converter_axi4_64to128_i/s_axi_wdata">
+      <obj_property name="ElementShortName">s_axi_wdata[63:0]</obj_property>
+      <obj_property name="ObjectShortName">s_axi_wdata[63:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mcdma_tb/axi_dwidth_converter_axi4_64to128_i/s_axi_wlast">
+      <obj_property name="ElementShortName">s_axi_wlast</obj_property>
+      <obj_property name="ObjectShortName">s_axi_wlast</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mcdma_tb/axi_dwidth_converter_axi4_64to128_i/s_axi_wready">
+      <obj_property name="ElementShortName">s_axi_wready</obj_property>
+      <obj_property name="ObjectShortName">s_axi_wready</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mcdma_tb/axi_dwidth_converter_axi4_64to128_i/s_axi_wstrb">
+      <obj_property name="ElementShortName">s_axi_wstrb[7:0]</obj_property>
+      <obj_property name="ObjectShortName">s_axi_wstrb[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mcdma_tb/axi_dwidth_converter_axi4_64to128_i/s_axi_wvalid">
+      <obj_property name="ElementShortName">s_axi_wvalid</obj_property>
+      <obj_property name="ObjectShortName">s_axi_wvalid</obj_property>
+   </wvobject>
+</wave_config>

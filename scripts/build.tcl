@@ -53,6 +53,8 @@ set_property BOARD_PART $evalKit [current_project]
 ## source ip/<some ip>.tcl ;# get commands from gui manually
 ## set_property generate_synth_checkpoint 0 [get_files <some ip>.xci] ;# for ip instantiated in HDL
 
+source ../bd/ip.tcl
+
 if {!$genProj} {
   ## generate_target all [get_files <some ip>.xci]
 }
@@ -61,10 +63,11 @@ if {!$genProj} {
 # HDL source
 #--------------------------------------------------------------------------------------------------
 
+read_verilog  $hdlDir/axil_if.sv 
+read_verilog  $hdlDir/axi_if.sv 
+
 read_verilog  $hdlDir/axis_stim_syn.sv 
 read_verilog  $hdlDir/axis_stim_syn_vwrap.v 
-
-
 read_verilog  $hdlDir/user_init_64b.sv 
 read_verilog  $hdlDir/user_init_64b_wrapper.v
 read_verilog  $hdlDir/user_init_64b_wrapper_zynq.v
@@ -92,10 +95,20 @@ read_xdc $xdcDir/pins.xdc
 ##set_property top <TB file> [get_filesets sim_1]
 
 read_verilog  $simDir/axis_stim_syn_vwrap_tb.sv 
+read_verilog  $simDir/axil_stim_dma.sv 
+read_verilog  $simDir/mcdma_bd_tb.sv 
 
 set_property used_in_synthesis      false [get_files $simDir/axis_stim_syn_vwrap_tb.sv ]
+set_property used_in_synthesis      false [get_files $simDir/axil_stim_dma.sv ]
+set_property used_in_synthesis      false [get_files $simDir/mcdma_bd_tb.sv ]
 
-set_property -name {xsim.simulate.log_all_signals} -value {true} -objects [get_filesets sim_1]
+set_property used_in_implementation false [get_files $simDir/axis_stim_syn_vwrap_tb.sv ]
+set_property used_in_implementation false [get_files $simDir/axil_stim_dma.sv ]
+set_property used_in_implementation false [get_files $simDir/mcdma_bd_tb.sv ]
+
+
+set_property -name {xsim.simulate.log_all_signals}  -value {true}   -objects [get_filesets sim_1]
+set_property -name {xsim.simulate.runtime}          -value {100us}  -objects [get_filesets sim_1]
 #--------------------------------------------------------------------------------------------------
 # Debug. Save project & quit. Source BD files manually.
 #--------------------------------------------------------------------------------------------------
@@ -108,6 +121,22 @@ if {"-no_bd" in $argv} {
   close_project
   exit
 }
+
+#--------------------------------------------------------------------------------------------------
+# mcdma_bd
+#--------------------------------------------------------------------------------------------------
+set mcdma_bd_bdFile       ".srcs/sources_1/bd/mcdma_bd/mcdma_bd.bd"
+set mcdma_bd_wrapperFile  ".gen/sources_1/bd/mcdma_bd/hdl/mcdma_bd_wrapper.v"
+source ../bd/mcdma_bd.tcl 
+if {!$genProj} {
+  set_property synth_checkpoint_mode None [get_files $mcdma_bd_bdFile]
+}
+
+make_wrapper -files [get_files $mcdma_bd_bdFile] -top ;# leave as top, had issues without...
+read_verilog $mcdma_bd_wrapperFile
+set_property used_in_synthesis      false [get_files $mcdma_bd_wrapperFile]
+set_property used_in_implementation false [get_files $mcdma_bd_wrapperFile]
+set_property source_mgmt_mode All [current_project]
 
 #--------------------------------------------------------------------------------------------------
 # <BDC1>
@@ -164,6 +193,7 @@ if {$genProj} {
   ##set_property -name {xsim.compile.xvlog.more_options}  -value {-d SIM_SPEED_UP}  -objects [get_filesets sim_1]
 
   ##add_files -fileset sim_1 -norecurse $simDir/<waveforms>.wcfg
+  #add_files -fileset sim_1 -norecurse $simDir/wcfg/*.wcfg
 
   set_property top $topEntity [current_fileset]
   save_project_as $projName ../$projName -force 

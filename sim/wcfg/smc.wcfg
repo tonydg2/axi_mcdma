@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="mcdma_tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="\$unit_xpm_cdc_sv_220102727 " />
+            <top_module name="axi_bram_ctrl_funcs" />
+            <top_module name="axi_mcdma_pkg" />
+            <top_module name="axi_msg_pkg" />
+            <top_module name="glbl" />
+            <top_module name="lib_pkg" />
+            <top_module name="mcdma_tb" />
+            <top_module name="vcomponents" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="155.000 ns"></ZoomStartTime>
+      <ZoomEndTime time="2,185.001 ns"></ZoomEndTime>
+      <Cursor1Time time="639.048 ns"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="221"></NameColumnWidth>
+      <ValueColumnWidth column_width="177"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="16" />
+   <wvobject type="array" fp_name="/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axi_smc/S00_AXI_awaddr">
+      <obj_property name="ElementShortName">S00_AXI_awaddr[39:0]</obj_property>
+      <obj_property name="ObjectShortName">S00_AXI_awaddr[39:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axi_smc/S00_AXI_awvalid">
+      <obj_property name="ElementShortName">S00_AXI_awvalid</obj_property>
+      <obj_property name="ObjectShortName">S00_AXI_awvalid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axi_smc/S00_AXI_awready">
+      <obj_property name="ElementShortName">S00_AXI_awready</obj_property>
+      <obj_property name="ObjectShortName">S00_AXI_awready</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axi_smc/S00_AXI_wdata">
+      <obj_property name="ElementShortName">S00_AXI_wdata[63:0]</obj_property>
+      <obj_property name="ObjectShortName">S00_AXI_wdata[63:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axi_smc/S00_AXI_wstrb">
+      <obj_property name="ElementShortName">S00_AXI_wstrb[7:0]</obj_property>
+      <obj_property name="ObjectShortName">S00_AXI_wstrb[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axi_smc/S00_AXI_wlast">
+      <obj_property name="ElementShortName">S00_AXI_wlast</obj_property>
+      <obj_property name="ObjectShortName">S00_AXI_wlast</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axi_smc/S00_AXI_wvalid">
+      <obj_property name="ElementShortName">S00_AXI_wvalid</obj_property>
+      <obj_property name="ObjectShortName">S00_AXI_wvalid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axi_smc/S00_AXI_wready">
+      <obj_property name="ElementShortName">S00_AXI_wready</obj_property>
+      <obj_property name="ObjectShortName">S00_AXI_wready</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider3160" type="divider">
+   </wvobject>
+   <wvobject type="array" fp_name="/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axi_smc/M02_AXI_awaddr">
+      <obj_property name="ElementShortName">M02_AXI_awaddr[6:0]</obj_property>
+      <obj_property name="ObjectShortName">M02_AXI_awaddr[6:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axi_smc/M02_AXI_awvalid">
+      <obj_property name="ElementShortName">M02_AXI_awvalid</obj_property>
+      <obj_property name="ObjectShortName">M02_AXI_awvalid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axi_smc/M02_AXI_awready">
+      <obj_property name="ElementShortName">M02_AXI_awready</obj_property>
+      <obj_property name="ObjectShortName">M02_AXI_awready</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axi_smc/M02_AXI_wdata">
+      <obj_property name="ElementShortName">M02_AXI_wdata[31:0]</obj_property>
+      <obj_property name="ObjectShortName">M02_AXI_wdata[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axi_smc/M02_AXI_wstrb">
+      <obj_property name="ElementShortName">M02_AXI_wstrb[3:0]</obj_property>
+      <obj_property name="ObjectShortName">M02_AXI_wstrb[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axi_smc/M02_AXI_wvalid">
+      <obj_property name="ElementShortName">M02_AXI_wvalid</obj_property>
+      <obj_property name="ObjectShortName">M02_AXI_wvalid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axi_smc/M02_AXI_wready">
+      <obj_property name="ElementShortName">M02_AXI_wready</obj_property>
+      <obj_property name="ObjectShortName">M02_AXI_wready</obj_property>
+   </wvobject>
+</wave_config>

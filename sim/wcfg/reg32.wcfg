@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="mcdma_tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="\$unit_xpm_cdc_sv_220102727 " />
+            <top_module name="axi_bram_ctrl_funcs" />
+            <top_module name="axi_mcdma_pkg" />
+            <top_module name="axi_msg_pkg" />
+            <top_module name="glbl" />
+            <top_module name="lib_pkg" />
+            <top_module name="mcdma_tb" />
+            <top_module name="vcomponents" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0.000 ns"></ZoomStartTime>
+      <ZoomEndTime time="4,380.529 ns"></ZoomEndTime>
+      <Cursor1Time time="3,650.000 ns"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="241"></NameColumnWidth>
+      <ValueColumnWidth column_width="156"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="36" />
+   <wvobject type="protoinst" fp_name="/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axil_reg32_0/S_AXI">
+      <obj_property name="ElementShortName">S_AXI</obj_property>
+      <obj_property name="ObjectShortName">S_AXI</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axil_reg32_0/S_AXI_AWPROT">
+      <obj_property name="ElementShortName">S_AXI_AWPROT[2:0]</obj_property>
+      <obj_property name="ObjectShortName">S_AXI_AWPROT[2:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axil_reg32_0/S_AXI_BRESP">
+      <obj_property name="ElementShortName">S_AXI_BRESP[1:0]</obj_property>
+      <obj_property name="ObjectShortName">S_AXI_BRESP[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axil_reg32_0/S_AXI_ARPROT">
+      <obj_property name="ElementShortName">S_AXI_ARPROT[2:0]</obj_property>
+      <obj_property name="ObjectShortName">S_AXI_ARPROT[2:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axil_reg32_0/S_AXI_RRESP">
+      <obj_property name="ElementShortName">S_AXI_RRESP[1:0]</obj_property>
+      <obj_property name="ObjectShortName">S_AXI_RRESP[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axil_reg32_0/S_AXI_ACLK">
+      <obj_property name="ElementShortName">S_AXI_ACLK</obj_property>
+      <obj_property name="ObjectShortName">S_AXI_ACLK</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axil_reg32_0/S_AXI_ARADDR">
+      <obj_property name="ElementShortName">S_AXI_ARADDR[6:0]</obj_property>
+      <obj_property name="ObjectShortName">S_AXI_ARADDR[6:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axil_reg32_0/S_AXI_ARESETN">
+      <obj_property name="ElementShortName">S_AXI_ARESETN</obj_property>
+      <obj_property name="ObjectShortName">S_AXI_ARESETN</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axil_reg32_0/S_AXI_ARREADY">
+      <obj_property name="ElementShortName">S_AXI_ARREADY</obj_property>
+      <obj_property name="ObjectShortName">S_AXI_ARREADY</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axil_reg32_0/S_AXI_ARVALID">
+      <obj_property name="ElementShortName">S_AXI_ARVALID</obj_property>
+      <obj_property name="ObjectShortName">S_AXI_ARVALID</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axil_reg32_0/S_AXI_AWADDR">
+      <obj_property name="ElementShortName">S_AXI_AWADDR[6:0]</obj_property>
+      <obj_property name="ObjectShortName">S_AXI_AWADDR[6:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axil_reg32_0/S_AXI_AWREADY">
+      <obj_property name="ElementShortName">S_AXI_AWREADY</obj_property>
+      <obj_property name="ObjectShortName">S_AXI_AWREADY</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axil_reg32_0/S_AXI_AWVALID">
+      <obj_property name="ElementShortName">S_AXI_AWVALID</obj_property>
+      <obj_property name="ObjectShortName">S_AXI_AWVALID</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axil_reg32_0/S_AXI_BREADY">
+      <obj_property name="ElementShortName">S_AXI_BREADY</obj_property>
+      <obj_property name="ObjectShortName">S_AXI_BREADY</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axil_reg32_0/S_AXI_BVALID">
+      <obj_property name="ElementShortName">S_AXI_BVALID</obj_property>
+      <obj_property name="ObjectShortName">S_AXI_BVALID</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axil_reg32_0/S_AXI_RDATA">
+      <obj_property name="ElementShortName">S_AXI_RDATA[31:0]</obj_property>
+      <obj_property name="ObjectShortName">S_AXI_RDATA[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axil_reg32_0/S_AXI_RREADY">
+      <obj_property name="ElementShortName">S_AXI_RREADY</obj_property>
+      <obj_property name="ObjectShortName">S_AXI_RREADY</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axil_reg32_0/S_AXI_RVALID">
+      <obj_property name="ElementShortName">S_AXI_RVALID</obj_property>
+      <obj_property name="ObjectShortName">S_AXI_RVALID</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axil_reg32_0/S_AXI_WDATA">
+      <obj_property name="ElementShortName">S_AXI_WDATA[31:0]</obj_property>
+      <obj_property name="ObjectShortName">S_AXI_WDATA[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axil_reg32_0/S_AXI_WREADY">
+      <obj_property name="ElementShortName">S_AXI_WREADY</obj_property>
+      <obj_property name="ObjectShortName">S_AXI_WREADY</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axil_reg32_0/S_AXI_WSTRB">
+      <obj_property name="ElementShortName">S_AXI_WSTRB[3:0]</obj_property>
+      <obj_property name="ObjectShortName">S_AXI_WSTRB[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axil_reg32_0/S_AXI_WVALID">
+      <obj_property name="ElementShortName">S_AXI_WVALID</obj_property>
+      <obj_property name="ObjectShortName">S_AXI_WVALID</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider4293" type="divider">
+   </wvobject>
+   <wvobject type="array" fp_name="/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axil_reg32_0/inst/slv_reg6">
+      <obj_property name="ElementShortName">slv_reg6[31:0]</obj_property>
+      <obj_property name="ObjectShortName">slv_reg6[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axil_reg32_0/inst/slv_reg7">
+      <obj_property name="ElementShortName">slv_reg7[31:0]</obj_property>
+      <obj_property name="ObjectShortName">slv_reg7[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axil_reg32_0/inst/slv_reg8">
+      <obj_property name="ElementShortName">slv_reg8[31:0]</obj_property>
+      <obj_property name="ObjectShortName">slv_reg8[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axil_reg32_0/inst/slv_reg9">
+      <obj_property name="ElementShortName">slv_reg9[31:0]</obj_property>
+      <obj_property name="ObjectShortName">slv_reg9[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axil_reg32_0/inst/slv_reg10">
+      <obj_property name="ElementShortName">slv_reg10[31:0]</obj_property>
+      <obj_property name="ObjectShortName">slv_reg10[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axil_reg32_0/inst/slv_reg11">
+      <obj_property name="ElementShortName">slv_reg11[31:0]</obj_property>
+      <obj_property name="ObjectShortName">slv_reg11[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axil_reg32_0/inst/slv_reg12">
+      <obj_property name="ElementShortName">slv_reg12[31:0]</obj_property>
+      <obj_property name="ObjectShortName">slv_reg12[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axil_reg32_0/inst/slv_reg13">
+      <obj_property name="ElementShortName">slv_reg13[31:0]</obj_property>
+      <obj_property name="ObjectShortName">slv_reg13[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axil_reg32_0/inst/slv_reg14">
+      <obj_property name="ElementShortName">slv_reg14[31:0]</obj_property>
+      <obj_property name="ObjectShortName">slv_reg14[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axil_reg32_0/inst/slv_reg15">
+      <obj_property name="ElementShortName">slv_reg15[31:0]</obj_property>
+      <obj_property name="ObjectShortName">slv_reg15[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axil_reg32_0/inst/slv_reg16">
+      <obj_property name="ElementShortName">slv_reg16[31:0]</obj_property>
+      <obj_property name="ObjectShortName">slv_reg16[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axil_reg32_0/inst/slv_reg17">
+      <obj_property name="ElementShortName">slv_reg17[31:0]</obj_property>
+      <obj_property name="ObjectShortName">slv_reg17[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mcdma_tb/mcdma_bd_wrapper_i/mcdma_bd_i/axil_reg32_0/inst/slv_reg18">
+      <obj_property name="ElementShortName">slv_reg18[31:0]</obj_property>
+      <obj_property name="ObjectShortName">slv_reg18[31:0]</obj_property>
+   </wvobject>
+</wave_config>
