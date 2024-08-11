@@ -20,7 +20,7 @@ set script_folder [_tcl::get_script_folder]
 ################################################################
 # Check if script is running in correct Vivado version.
 ################################################################
-set scripts_vivado_version 2023.2
+set scripts_vivado_version 2024.1
 set current_vivado_version [version -short]
 
 if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
@@ -420,9 +420,9 @@ connect_bd_intf_net -intf_net [get_bd_intf_nets axi_smc1_M00_AXI] [get_bd_intf_p
 
   # Create port connections
   connect_bd_net -net axi_resetn_0_1 [get_bd_pins proc_sys_reset_0/peripheral_aresetn] [get_bd_pins MEM_BRAM_CTRL/s_axi_aresetn] [get_bd_pins SG_BRAM_CTRL/s_axi_aresetn] [get_bd_pins axi_mcdma_0/axi_resetn]
-  connect_bd_net -net proc_sys_reset_0_interconnect_aresetn [get_bd_pins proc_sys_reset_0/interconnect_aresetn] [get_bd_pins axi_smc1/aresetn] [get_bd_pins axi_smc/aresetn] [get_bd_pins axil_reg32_0/S_AXI_ARESETN]
+  connect_bd_net -net proc_sys_reset_0_interconnect_aresetn [get_bd_pins proc_sys_reset_0/interconnect_aresetn] [get_bd_pins axil_reg32_0/S_AXI_ARESETN] [get_bd_pins axi_smc1/aresetn] [get_bd_pins axi_smc/aresetn]
   connect_bd_net -net proc_sys_reset_0_peripheral_reset [get_bd_pins proc_sys_reset_0/peripheral_reset] [get_bd_pins axis_stim_syn_vwrap_0/rst]
-  connect_bd_net -net s_axi_lite_aclk_0_1 [get_bd_ports s_axi_aclk] [get_bd_pins MEM_BRAM_CTRL/s_axi_aclk] [get_bd_pins SG_BRAM_CTRL/s_axi_aclk] [get_bd_pins axi_mcdma_0/s_axi_aclk] [get_bd_pins axi_mcdma_0/s_axi_lite_aclk] [get_bd_pins axis_stim_syn_vwrap_0/clk] [get_bd_pins axi_smc1/aclk] [get_bd_pins proc_sys_reset_0/slowest_sync_clk] [get_bd_pins axil_reg32_0/S_AXI_ACLK] [get_bd_pins axi_smc/aclk]
+  connect_bd_net -net s_axi_lite_aclk_0_1 [get_bd_ports s_axi_aclk] [get_bd_pins axis_stim_syn_vwrap_0/clk] [get_bd_pins axil_reg32_0/S_AXI_ACLK] [get_bd_pins MEM_BRAM_CTRL/s_axi_aclk] [get_bd_pins SG_BRAM_CTRL/s_axi_aclk] [get_bd_pins axi_mcdma_0/s_axi_aclk] [get_bd_pins axi_mcdma_0/s_axi_lite_aclk] [get_bd_pins axi_smc1/aclk] [get_bd_pins axi_smc/aclk] [get_bd_pins proc_sys_reset_0/slowest_sync_clk]
   connect_bd_net -net user_init_64b_wrappe_0_usr_access_data_o [get_bd_pins user_init/usr_access_data_o] [get_bd_pins axil_reg32_0/timestamp]
   connect_bd_net -net user_init_64b_wrappe_0_value_o [get_bd_pins user_init/value_o] [get_bd_pins axil_reg32_0/git_hash]
   connect_bd_net -net xlconstant_0_dout [get_bd_pins const_1/dout] [get_bd_pins axi_mcdma_0/m_axis_mm2s_tready]

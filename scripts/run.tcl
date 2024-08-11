@@ -2,7 +2,7 @@
 # -proj, -clean, -verbose
 # -name, -no_bd
 
-set VivadoPath "/mnt/TDG_512/xilinx/Vivado/2023.2"
+set VivadoPath "/mnt/TDG_512/xilinx/Vivado/2024.1"
 
 
 if {("-h" in $argv) ||("-help" in $argv)} {

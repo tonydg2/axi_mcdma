@@ -7,7 +7,7 @@ import vitis
 
 client = vitis.create_client()
 
-workspacePath = "../workspace"
+workspacePath = "../workspace_24"
 sourceDir = "../src"
 client.set_workspace(path=workspacePath)
 
