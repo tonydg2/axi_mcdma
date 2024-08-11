@@ -2,9 +2,21 @@
 # -proj, -clean, -verbose
 # -name, -no_bd
 
+set VivadoPath "/mnt/TDG_512/xilinx/Vivado/2023.2"
+
+
+if {("-h" in $argv) ||("-help" in $argv)} {
+  puts "\t-proj : Generate project only."
+  puts "\t-name <PROJECT_NAME> : Name of project (used with -proj). Default name used if not specified."
+  puts "\t-clean : Clean build generated files and logs from scripts directory."
+  puts "\t-verbose : Prints all tcl commands during build time."
+  puts "\t-no_bd : For debug, create project with everything except adding block design or block design containers, to be added manually."
+  puts "\t-h, -help : Help."
+  exit
+}
+
 set startTime [clock seconds]
 set TOP "top_bd_wrapper" ;# top entity name or image/bit file generated name...
-set VivadoPath "/mnt/TDG_512/xilinx/Vivado/2023.2"
 
 if {![file exist $VivadoPath]} {
   puts "ERROR - Check Vivado install path.\n\"$VivadoPath\" DOES NOT EXIST"

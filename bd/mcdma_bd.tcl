@@ -298,7 +298,6 @@ proc create_root_design { parentCell } {
   set s_axi_aclk [ create_bd_port -dir I -type clk s_axi_aclk ]
   set_property -dict [ list \
    CONFIG.ASSOCIATED_BUSIF {S00_AXI:M_AXIS_MM2S:S_AXI} \
-   CONFIG.ASSOCIATED_RESET {} \
  ] $s_axi_aclk
 
   # Create instance: MEMORY_BRAM, and set properties
@@ -404,29 +403,20 @@ proc create_root_design { parentCell } {
   
   # Create interface connections
   connect_bd_intf_net -intf_net axi_bram_ctrl_0_BRAM_PORTA [get_bd_intf_pins MEMORY_BRAM/BRAM_PORTA] [get_bd_intf_pins MEM_BRAM_CTRL/BRAM_PORTA]
-  set_property HDL_ATTRIBUTE.DEBUG {true} [get_bd_intf_nets axi_bram_ctrl_0_BRAM_PORTA]
   connect_bd_intf_net -intf_net axi_bram_ctrl_0_BRAM_PORTB [get_bd_intf_pins MEMORY_BRAM/BRAM_PORTB] [get_bd_intf_pins MEM_BRAM_CTRL/BRAM_PORTB]
-  set_property HDL_ATTRIBUTE.DEBUG {true} [get_bd_intf_nets axi_bram_ctrl_0_BRAM_PORTB]
   connect_bd_intf_net -intf_net axi_bram_ctrl_1_BRAM_PORTA [get_bd_intf_pins SG_BRAM_CTRL/BRAM_PORTA] [get_bd_intf_pins SG_BRAM/BRAM_PORTA]
-  set_property HDL_ATTRIBUTE.DEBUG {true} [get_bd_intf_nets axi_bram_ctrl_1_BRAM_PORTA]
   connect_bd_intf_net -intf_net axi_bram_ctrl_1_BRAM_PORTB [get_bd_intf_pins SG_BRAM_CTRL/BRAM_PORTB] [get_bd_intf_pins SG_BRAM/BRAM_PORTB]
-  set_property HDL_ATTRIBUTE.DEBUG {true} [get_bd_intf_nets axi_bram_ctrl_1_BRAM_PORTB]
 connect_bd_intf_net -intf_net axi_mcdma_0_M_AXIS_MM2S [get_bd_intf_pins axi_mcdma_0/M_AXIS_MM2S] [get_bd_intf_ports M_AXIS_MM2S]
   connect_bd_intf_net -intf_net axi_mcdma_0_M_AXI_MM2S [get_bd_intf_pins axi_smc1/S00_AXI] [get_bd_intf_pins axi_mcdma_0/M_AXI_MM2S]
   connect_bd_intf_net -intf_net axi_mcdma_0_M_AXI_S2MM [get_bd_intf_pins axi_mcdma_0/M_AXI_S2MM] [get_bd_intf_pins axi_smc1/S01_AXI]
   connect_bd_intf_net -intf_net axi_mcdma_0_M_AXI_SG [get_bd_intf_pins axi_mcdma_0/M_AXI_SG] [get_bd_intf_pins axi_smc/S01_AXI]
   connect_bd_intf_net -intf_net axi_smc1_M00_AXI [get_bd_intf_pins MEM_BRAM_CTRL/S_AXI] [get_bd_intf_pins axi_smc1/M00_AXI]
 connect_bd_intf_net -intf_net [get_bd_intf_nets axi_smc1_M00_AXI] [get_bd_intf_pins MEM_BRAM_CTRL/S_AXI] [get_bd_intf_ports S_AXI]
-  set_property HDL_ATTRIBUTE.DEBUG {true} [get_bd_intf_nets axi_smc1_M00_AXI]
   connect_bd_intf_net -intf_net axi_smc_M00_AXI [get_bd_intf_pins axi_smc/M00_AXI] [get_bd_intf_pins axi_mcdma_0/S_AXI_LITE]
-  set_property HDL_ATTRIBUTE.DEBUG {true} [get_bd_intf_nets axi_smc_M00_AXI]
   connect_bd_intf_net -intf_net axi_smc_M01_AXI [get_bd_intf_pins axi_smc/M01_AXI] [get_bd_intf_pins SG_BRAM_CTRL/S_AXI]
-  set_property HDL_ATTRIBUTE.DEBUG {true} [get_bd_intf_nets axi_smc_M01_AXI]
   connect_bd_intf_net -intf_net axi_smc_M02_AXI [get_bd_intf_pins axi_smc/M02_AXI] [get_bd_intf_pins axil_reg32_0/S_AXI]
-  set_property HDL_ATTRIBUTE.DEBUG {true} [get_bd_intf_nets axi_smc_M02_AXI]
   connect_bd_intf_net -intf_net axis_stim_syn_vwrap_0_M_AXIS [get_bd_intf_pins axis_stim_syn_vwrap_0/M_AXIS] [get_bd_intf_pins axi_mcdma_0/S_AXIS_S2MM]
   connect_bd_intf_net -intf_net zynq_ultra_ps_e_0_M_AXI_HPM0_FPD [get_bd_intf_ports S00_AXI] [get_bd_intf_pins axi_smc/S00_AXI]
-  set_property HDL_ATTRIBUTE.DEBUG {true} [get_bd_intf_nets zynq_ultra_ps_e_0_M_AXI_HPM0_FPD]
 
   # Create port connections
   connect_bd_net -net axi_resetn_0_1 [get_bd_pins proc_sys_reset_0/peripheral_aresetn] [get_bd_pins MEM_BRAM_CTRL/s_axi_aresetn] [get_bd_pins SG_BRAM_CTRL/s_axi_aresetn] [get_bd_pins axi_mcdma_0/axi_resetn]
