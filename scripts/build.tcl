@@ -208,7 +208,7 @@ if {!$genProj} {
     ##write_device_image ;# versal
     write_bitstream     -force $outputDir/$topEntity  ;#may need to add .bit
     write_debug_probes  -force $outputDir/$topEntity  ;#may need to add .ltx
-    write_hw_platform   -fixed -force -file $outputDir/$topEntity.xsa ;#may need to add .xsa
+    write_hw_platform   -include_bit -fixed -force $outputDir/$topEntity.xsa ;#may need to add .xsa
   }
   close_project -delete
 } else {
