@@ -213,6 +213,8 @@ if {$genProj} {
 # Build
 #--------------------------------------------------------------------------------------------------
 if {!$genProj} {
+  #write_hw_platform -minimal -fixed -force -file $outputDir/PRESYNTH_$topEntity.xsa
+  
   synth_design -top $topEntity -part $partNum
   #write_checkpoint -force $outputDir/post_synth
   #report_timing_summary
@@ -248,7 +250,8 @@ if {!$genProj} {
     ##write_device_image ;# versal
     write_bitstream     -force $outputDir/$topEntity  ;#may need to add .bit
     write_debug_probes  -force $outputDir/$topEntity  ;#may need to add .ltx
-    write_hw_platform   -fixed -force -file $outputDir/$topEntity.xsa ;#may need to add .xsa
+    write_hw_platform   -include_bit -fixed -force $outputDir/$topEntity.xsa ;#may need to add .xsa
+    #write_hw_platform   -fixed -force -file $outputDir/$topEntity.xsa ;#may need to add .xsa
   }
   close_project -delete
 } else {

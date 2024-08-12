@@ -3,7 +3,9 @@
 # -name, -no_bd
 
 set VivadoPath "/mnt/TDG_512/xilinx/Vivado/2024.1"
-
+set VivadoSettingsFile $VivadoPath/settings64.sh
+set startTime [clock seconds]
+set TOP "top_bd_wrapper" ;# top entity name or image/bit file generated name...
 
 if {("-h" in $argv) ||("-help" in $argv)} {
   puts "\t-proj : Generate project only."
@@ -14,9 +16,6 @@ if {("-h" in $argv) ||("-help" in $argv)} {
   puts "\t-h, -help : Help."
   exit
 }
-
-set startTime [clock seconds]
-set TOP "top_bd_wrapper" ;# top entity name or image/bit file generated name...
 
 if {![file exist $VivadoPath]} {
   puts "ERROR - Check Vivado install path.\n\"$VivadoPath\" DOES NOT EXIST"
@@ -45,8 +44,6 @@ if {"-clean" in $argv} {
   foreach x $files2Clean {file delete -force $x}
   #file delete -force $outputDir $newOutputDir
 }
-
-set VivadoSettingsFile $VivadoPath/settings64.sh
 
 if {$genProj} {
   puts "\n\n*** PROJECT GENERATION ONLY ***\n\n"
