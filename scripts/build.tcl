@@ -95,17 +95,18 @@ read_xdc $xdcDir/pins.xdc
 
 ##set_property top <TB file> [get_filesets sim_1]
 
-read_verilog  $simDir/axis_stim_syn_vwrap_tb.sv 
-read_verilog  $simDir/axil_stim_dma.sv 
-read_verilog  $simDir/mcdma_bd_tb.sv 
-
-set_property used_in_synthesis      false [get_files $simDir/axis_stim_syn_vwrap_tb.sv ]
-set_property used_in_synthesis      false [get_files $simDir/axil_stim_dma.sv ]
-set_property used_in_synthesis      false [get_files $simDir/mcdma_bd_tb.sv ]
-
-set_property used_in_implementation false [get_files $simDir/axis_stim_syn_vwrap_tb.sv ]
-set_property used_in_implementation false [get_files $simDir/axil_stim_dma.sv ]
-set_property used_in_implementation false [get_files $simDir/mcdma_bd_tb.sv ]
+# moved to genProj
+#read_verilog  $simDir/axis_stim_syn_vwrap_tb.sv 
+#read_verilog  $simDir/axil_stim_dma.sv 
+#read_verilog  $simDir/mcdma_bd_tb.sv 
+#
+#set_property used_in_synthesis      false [get_files $simDir/axis_stim_syn_vwrap_tb.sv ]
+#set_property used_in_synthesis      false [get_files $simDir/axil_stim_dma.sv ]
+#set_property used_in_synthesis      false [get_files $simDir/mcdma_bd_tb.sv ]
+#
+#set_property used_in_implementation false [get_files $simDir/axis_stim_syn_vwrap_tb.sv ]
+#set_property used_in_implementation false [get_files $simDir/axil_stim_dma.sv ]
+#set_property used_in_implementation false [get_files $simDir/mcdma_bd_tb.sv ]
 
 
 #--------------------------------------------------------------------------------------------------
@@ -120,21 +121,21 @@ if {"-no_bd" in $argv} {
 #--------------------------------------------------------------------------------------------------
 # mcdma_bd
 #--------------------------------------------------------------------------------------------------
-set mcdma_bd_bdFile       ".srcs/sources_1/bd/mcdma_bd/mcdma_bd.bd"
-set mcdma_bd_wrapperFile  ".gen/sources_1/bd/mcdma_bd/hdl/mcdma_bd_wrapper.v"
-source ../bd/mcdma_bd.tcl 
-if {!$genProj} {
-  set_property synth_checkpoint_mode None [get_files $mcdma_bd_bdFile]
-  open_bd_design $mcdma_bd_bdFile
-  generate_target all [get_files $mcdma_bd_bdFile]
-}
-
-# Put these in genProj as they are for sim only
-#make_wrapper -files [get_files $mcdma_bd_bdFile] -top ;# leave as top, had issues without...
-#read_verilog $mcdma_bd_wrapperFile
-#set_property used_in_synthesis      false [get_files $mcdma_bd_wrapperFile]
-#set_property used_in_implementation false [get_files $mcdma_bd_wrapperFile]
-set_property source_mgmt_mode All [current_project]
+# set mcdma_bd_bdFile       ".srcs/sources_1/bd/mcdma_bd/mcdma_bd.bd"
+# set mcdma_bd_wrapperFile  ".gen/sources_1/bd/mcdma_bd/hdl/mcdma_bd_wrapper.v"
+# source ../bd/mcdma_bd.tcl 
+# if {!$genProj} {
+#   set_property synth_checkpoint_mode None [get_files $mcdma_bd_bdFile]
+#   open_bd_design $mcdma_bd_bdFile
+#   generate_target all [get_files $mcdma_bd_bdFile]
+# }
+# 
+# # Put these in genProj as they are for sim only
+# #make_wrapper -files [get_files $mcdma_bd_bdFile] -top ;# leave as top, had issues without...
+# #read_verilog $mcdma_bd_wrapperFile
+# #set_property used_in_synthesis      false [get_files $mcdma_bd_wrapperFile]
+# #set_property used_in_implementation false [get_files $mcdma_bd_wrapperFile]
+# set_property source_mgmt_mode All [current_project]
 
 #--------------------------------------------------------------------------------------------------
 # <BDC1>
@@ -186,12 +187,26 @@ if {!$genProj} {
 
 if {$genProj} {
 
+# tb files
+  read_verilog  $simDir/axis_stim_syn_vwrap_tb.sv 
+  read_verilog  $simDir/axil_stim_dma.sv 
+  read_verilog  $simDir/mcdma_bd_tb.sv 
+
+  set_property used_in_synthesis      false [get_files $simDir/axis_stim_syn_vwrap_tb.sv ]
+  set_property used_in_synthesis      false [get_files $simDir/axil_stim_dma.sv ]
+  set_property used_in_synthesis      false [get_files $simDir/mcdma_bd_tb.sv ]
+
+  set_property used_in_implementation false [get_files $simDir/axis_stim_syn_vwrap_tb.sv ]
+  set_property used_in_implementation false [get_files $simDir/axil_stim_dma.sv ]
+  set_property used_in_implementation false [get_files $simDir/mcdma_bd_tb.sv ]
+
   source ../sim/sim_ip.tcl
 
-  make_wrapper -files [get_files $mcdma_bd_bdFile] -top ;# leave as top, had issues without...
-  read_verilog $mcdma_bd_wrapperFile
-  set_property used_in_synthesis      false [get_files $mcdma_bd_wrapperFile]
-  set_property used_in_implementation false [get_files $mcdma_bd_wrapperFile]
+# BDC files
+  #make_wrapper -files [get_files $mcdma_bd_bdFile] -top ;# leave as top, had issues without...
+  #read_verilog $mcdma_bd_wrapperFile
+  #set_property used_in_synthesis      false [get_files $mcdma_bd_wrapperFile]
+  #set_property used_in_implementation false [get_files $mcdma_bd_wrapperFile]
 
 
   # for sim

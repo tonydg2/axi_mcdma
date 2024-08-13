@@ -45,10 +45,10 @@ if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
 
 
 # The design that will be created by this Tcl script contains the following 
-# module references:
-# axil_reg32, axis_stim_syn_vwrap, user_init_64b_wrapper_zynq
+# block design container source references:
+# mcdma_bd
 
-# Please add the sources of those modules before sourcing this Tcl script.
+# Please add the sources before sourcing this Tcl script.
 
 # If there is no project opened, this script will create a
 # project, but make sure you do not have an existing project
@@ -139,12 +139,6 @@ if { $bCheckIPs == 1 } {
    set list_check_ips "\ 
 xilinx.com:ip:zynq_ultra_ps_e:3.5\
 xilinx.com:ip:ila:6.2\
-xilinx.com:ip:blk_mem_gen:8.4\
-xilinx.com:ip:axi_bram_ctrl:4.1\
-xilinx.com:ip:axi_mcdma:1.1\
-xilinx.com:ip:smartconnect:1.0\
-xilinx.com:ip:xlconstant:1.1\
-xilinx.com:ip:proc_sys_reset:5.0\
 "
 
    set list_ips_missing ""
@@ -165,29 +159,40 @@ xilinx.com:ip:proc_sys_reset:5.0\
 }
 
 ##################################################################
-# CHECK Modules
+# CHECK Block Design Container Sources
 ##################################################################
-set bCheckModules 1
-if { $bCheckModules == 1 } {
-   set list_check_mods "\ 
-axil_reg32\
-axis_stim_syn_vwrap\
-user_init_64b_wrapper_zynq\
+set bCheckSources 1
+set list_bdc_active "mcdma_bd"
+
+array set map_bdc_missing {}
+set map_bdc_missing(ACTIVE) ""
+set map_bdc_missing(BDC) ""
+
+if { $bCheckSources == 1 } {
+   set list_check_srcs "\ 
+mcdma_bd \
 "
 
-   set list_mods_missing ""
-   common::send_gid_msg -ssname BD::TCL -id 2020 -severity "INFO" "Checking if the following modules exist in the project's sources: $list_check_mods ."
+   common::send_gid_msg -ssname BD::TCL -id 2056 -severity "INFO" "Checking if the following sources for block design container exist in the project: $list_check_srcs .\n\n"
 
-   foreach mod_vlnv $list_check_mods {
-      if { [can_resolve_reference $mod_vlnv] == 0 } {
-         lappend list_mods_missing $mod_vlnv
+   foreach src $list_check_srcs {
+      if { [can_resolve_reference $src] == 0 } {
+         if { [lsearch $list_bdc_active $src] != -1 } {
+            set map_bdc_missing(ACTIVE) "$map_bdc_missing(ACTIVE) $src"
+         } else {
+            set map_bdc_missing(BDC) "$map_bdc_missing(BDC) $src"
+         }
       }
    }
 
-   if { $list_mods_missing ne "" } {
-      catch {common::send_gid_msg -ssname BD::TCL -id 2021 -severity "ERROR" "The following module(s) are not found in the project: $list_mods_missing" }
-      common::send_gid_msg -ssname BD::TCL -id 2022 -severity "INFO" "Please add source files for the missing module(s) above."
+   if { [llength $map_bdc_missing(ACTIVE)] > 0 } {
+      catch {common::send_gid_msg -ssname BD::TCL -id 2057 -severity "ERROR" "The following source(s) of Active variants are not found in the project: $map_bdc_missing(ACTIVE)" }
+      common::send_gid_msg -ssname BD::TCL -id 2060 -severity "INFO" "Please add source files for the missing source(s) above."
       set bCheckIPsPassed 0
+   }
+   if { [llength $map_bdc_missing(BDC)] > 0 } {
+      catch {common::send_gid_msg -ssname BD::TCL -id 2059 -severity "WARNING" "The following source(s) of variants are not found in the project: $map_bdc_missing(BDC)" }
+      common::send_gid_msg -ssname BD::TCL -id 2060 -severity "INFO" "Please add source files for the missing source(s) above."
    }
 }
 
@@ -200,185 +205,6 @@ if { $bCheckIPsPassed != 1 } {
 # DESIGN PROCs
 ##################################################################
 
-
-# Hierarchical cell: mcdma_hier
-proc create_hier_cell_mcdma_hier { parentCell nameHier } {
-
-  variable script_folder
-
-  if { $parentCell eq "" || $nameHier eq "" } {
-     catch {common::send_gid_msg -ssname BD::TCL -id 2092 -severity "ERROR" "create_hier_cell_mcdma_hier() - Empty argument(s)!"}
-     return
-  }
-
-  # Get object for parentCell
-  set parentObj [get_bd_cells $parentCell]
-  if { $parentObj == "" } {
-     catch {common::send_gid_msg -ssname BD::TCL -id 2090 -severity "ERROR" "Unable to find parent cell <$parentCell>!"}
-     return
-  }
-
-  # Make sure parentObj is hier blk
-  set parentType [get_property TYPE $parentObj]
-  if { $parentType ne "hier" } {
-     catch {common::send_gid_msg -ssname BD::TCL -id 2091 -severity "ERROR" "Parent <$parentObj> has TYPE = <$parentType>. Expected to be <hier>."}
-     return
-  }
-
-  # Save current instance; Restore later
-  set oldCurInst [current_bd_instance .]
-
-  # Set parent object as current
-  current_bd_instance $parentObj
-
-  # Create cell and set as current instance
-  set hier_obj [create_bd_cell -type hier $nameHier]
-  current_bd_instance $hier_obj
-
-  # Create interface pins
-  create_bd_intf_pin -mode Monitor -vlnv xilinx.com:interface:aximm_rtl:1.0 M00_AXI
-
-  create_bd_intf_pin -mode Monitor -vlnv xilinx.com:interface:axis_rtl:1.0 M_AXIS_MM2S
-
-  create_bd_intf_pin -mode Slave -vlnv xilinx.com:interface:aximm_rtl:1.0 S00_AXI
-
-
-  # Create pins
-  create_bd_pin -dir I -type clk s_axi_aclk
-  create_bd_pin -dir I -type rst ext_reset_in
-
-  # Create instance: MEMORY_BRAM, and set properties
-  set MEMORY_BRAM [ create_bd_cell -type ip -vlnv xilinx.com:ip:blk_mem_gen:8.4 MEMORY_BRAM ]
-  set_property -dict [list \
-    CONFIG.Enable_B {Use_ENB_Pin} \
-    CONFIG.Memory_Type {True_Dual_Port_RAM} \
-    CONFIG.Port_B_Clock {100} \
-    CONFIG.Port_B_Enable_Rate {100} \
-    CONFIG.Port_B_Write_Rate {50} \
-    CONFIG.Use_RSTB_Pin {true} \
-  ] $MEMORY_BRAM
-
-
-  # Create instance: MEM_BRAM_CTRL, and set properties
-  set MEM_BRAM_CTRL [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_bram_ctrl:4.1 MEM_BRAM_CTRL ]
-
-  # Create instance: SG_BRAM, and set properties
-  set SG_BRAM [ create_bd_cell -type ip -vlnv xilinx.com:ip:blk_mem_gen:8.4 SG_BRAM ]
-  set_property -dict [list \
-    CONFIG.Assume_Synchronous_Clk {true} \
-    CONFIG.Enable_B {Use_ENB_Pin} \
-    CONFIG.Memory_Type {True_Dual_Port_RAM} \
-    CONFIG.Port_B_Clock {100} \
-    CONFIG.Port_B_Enable_Rate {100} \
-    CONFIG.Port_B_Write_Rate {50} \
-    CONFIG.Use_RSTB_Pin {true} \
-  ] $SG_BRAM
-
-
-  # Create instance: SG_BRAM_CTRL, and set properties
-  set SG_BRAM_CTRL [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_bram_ctrl:4.1 SG_BRAM_CTRL ]
-
-  # Create instance: axi_mcdma_0, and set properties
-  set axi_mcdma_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_mcdma:1.1 axi_mcdma_0 ]
-  set_property -dict [list \
-    CONFIG.c_group1_mm2s {0000000000000011} \
-    CONFIG.c_group1_s2mm {0000000000000011} \
-    CONFIG.c_num_mm2s_channels {2} \
-    CONFIG.c_num_s2mm_channels {2} \
-  ] $axi_mcdma_0
-
-
-  # Create instance: axi_smc, and set properties
-  set axi_smc [ create_bd_cell -type ip -vlnv xilinx.com:ip:smartconnect:1.0 axi_smc ]
-  set_property -dict [list \
-    CONFIG.NUM_MI {3} \
-    CONFIG.NUM_SI {2} \
-  ] $axi_smc
-
-
-  # Create instance: axi_smc1, and set properties
-  set axi_smc1 [ create_bd_cell -type ip -vlnv xilinx.com:ip:smartconnect:1.0 axi_smc1 ]
-  set_property -dict [list \
-    CONFIG.NUM_MI {1} \
-    CONFIG.NUM_SI {2} \
-  ] $axi_smc1
-
-
-  # Create instance: axil_reg32_0, and set properties
-  set block_name axil_reg32
-  set block_cell_name axil_reg32_0
-  if { [catch {set axil_reg32_0 [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
-     catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
-     return 1
-   } elseif { $axil_reg32_0 eq "" } {
-     catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
-     return 1
-   }
-  
-  # Create instance: axis_stim_syn_vwrap_0, and set properties
-  set block_name axis_stim_syn_vwrap
-  set block_cell_name axis_stim_syn_vwrap_0
-  if { [catch {set axis_stim_syn_vwrap_0 [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
-     catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
-     return 1
-   } elseif { $axis_stim_syn_vwrap_0 eq "" } {
-     catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
-     return 1
-   }
-  
-  # Create instance: const_0, and set properties
-  set const_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlconstant:1.1 const_0 ]
-  set_property CONFIG.CONST_VAL {0} $const_0
-
-
-  # Create instance: const_1, and set properties
-  set const_1 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlconstant:1.1 const_1 ]
-
-  # Create instance: proc_sys_reset_0, and set properties
-  set proc_sys_reset_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:proc_sys_reset:5.0 proc_sys_reset_0 ]
-
-  # Create instance: user_init, and set properties
-  set block_name user_init_64b_wrapper_zynq
-  set block_cell_name user_init
-  if { [catch {set user_init [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
-     catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
-     return 1
-   } elseif { $user_init eq "" } {
-     catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
-     return 1
-   }
-  
-  # Create interface connections
-  connect_bd_intf_net -intf_net axi_bram_ctrl_0_BRAM_PORTA [get_bd_intf_pins MEMORY_BRAM/BRAM_PORTA] [get_bd_intf_pins MEM_BRAM_CTRL/BRAM_PORTA]
-  connect_bd_intf_net -intf_net axi_bram_ctrl_0_BRAM_PORTB [get_bd_intf_pins MEMORY_BRAM/BRAM_PORTB] [get_bd_intf_pins MEM_BRAM_CTRL/BRAM_PORTB]
-  connect_bd_intf_net -intf_net axi_bram_ctrl_1_BRAM_PORTA [get_bd_intf_pins SG_BRAM_CTRL/BRAM_PORTA] [get_bd_intf_pins SG_BRAM/BRAM_PORTA]
-  connect_bd_intf_net -intf_net axi_bram_ctrl_1_BRAM_PORTB [get_bd_intf_pins SG_BRAM_CTRL/BRAM_PORTB] [get_bd_intf_pins SG_BRAM/BRAM_PORTB]
-  connect_bd_intf_net -intf_net axi_mcdma_0_M_AXIS_MM2S1 [get_bd_intf_pins axi_mcdma_0/M_AXIS_MM2S] [get_bd_intf_pins M_AXIS_MM2S]
-  connect_bd_intf_net -intf_net axi_mcdma_0_M_AXI_MM2S [get_bd_intf_pins axi_smc1/S00_AXI] [get_bd_intf_pins axi_mcdma_0/M_AXI_MM2S]
-  connect_bd_intf_net -intf_net axi_mcdma_0_M_AXI_S2MM [get_bd_intf_pins axi_mcdma_0/M_AXI_S2MM] [get_bd_intf_pins axi_smc1/S01_AXI]
-  connect_bd_intf_net -intf_net axi_mcdma_0_M_AXI_SG [get_bd_intf_pins axi_mcdma_0/M_AXI_SG] [get_bd_intf_pins axi_smc/S01_AXI]
-  connect_bd_intf_net -intf_net axi_smc1_M00_AXI1 [get_bd_intf_pins axi_smc1/M00_AXI] [get_bd_intf_pins MEM_BRAM_CTRL/S_AXI]
-  connect_bd_intf_net -intf_net [get_bd_intf_nets axi_smc1_M00_AXI1] [get_bd_intf_pins axi_smc1/M00_AXI] [get_bd_intf_pins M00_AXI]
-  connect_bd_intf_net -intf_net axi_smc_M00_AXI [get_bd_intf_pins axi_smc/M00_AXI] [get_bd_intf_pins axi_mcdma_0/S_AXI_LITE]
-  connect_bd_intf_net -intf_net axi_smc_M01_AXI [get_bd_intf_pins axi_smc/M01_AXI] [get_bd_intf_pins SG_BRAM_CTRL/S_AXI]
-  connect_bd_intf_net -intf_net axi_smc_M02_AXI [get_bd_intf_pins axi_smc/M02_AXI] [get_bd_intf_pins axil_reg32_0/S_AXI]
-  connect_bd_intf_net -intf_net axis_stim_syn_vwrap_0_M_AXIS [get_bd_intf_pins axis_stim_syn_vwrap_0/M_AXIS] [get_bd_intf_pins axi_mcdma_0/S_AXIS_S2MM]
-  connect_bd_intf_net -intf_net zynq_ultra_ps_e_0_M_AXI_HPM0_FPD1 [get_bd_intf_pins S00_AXI] [get_bd_intf_pins axi_smc/S00_AXI]
-
-  # Create port connections
-  connect_bd_net -net axi_resetn_0_1 [get_bd_pins proc_sys_reset_0/peripheral_aresetn] [get_bd_pins MEM_BRAM_CTRL/s_axi_aresetn] [get_bd_pins SG_BRAM_CTRL/s_axi_aresetn] [get_bd_pins axi_mcdma_0/axi_resetn]
-  connect_bd_net -net proc_sys_reset_0_interconnect_aresetn [get_bd_pins proc_sys_reset_0/interconnect_aresetn] [get_bd_pins axil_reg32_0/S_AXI_ARESETN] [get_bd_pins axi_smc1/aresetn] [get_bd_pins axi_smc/aresetn]
-  connect_bd_net -net proc_sys_reset_0_peripheral_reset [get_bd_pins proc_sys_reset_0/peripheral_reset] [get_bd_pins axis_stim_syn_vwrap_0/rst]
-  connect_bd_net -net s_axi_lite_aclk_0_2 [get_bd_pins s_axi_aclk] [get_bd_pins axis_stim_syn_vwrap_0/clk] [get_bd_pins axil_reg32_0/S_AXI_ACLK] [get_bd_pins SG_BRAM_CTRL/s_axi_aclk] [get_bd_pins axi_mcdma_0/s_axi_aclk] [get_bd_pins axi_mcdma_0/s_axi_lite_aclk] [get_bd_pins axi_smc1/aclk] [get_bd_pins axi_smc/aclk] [get_bd_pins proc_sys_reset_0/slowest_sync_clk] [get_bd_pins MEM_BRAM_CTRL/s_axi_aclk]
-  connect_bd_net -net user_init_64b_wrappe_0_usr_access_data_o [get_bd_pins user_init/usr_access_data_o] [get_bd_pins axil_reg32_0/timestamp]
-  connect_bd_net -net user_init_64b_wrappe_0_value_o [get_bd_pins user_init/value_o] [get_bd_pins axil_reg32_0/git_hash]
-  connect_bd_net -net xlconstant_0_dout [get_bd_pins const_1/dout] [get_bd_pins axi_mcdma_0/m_axis_mm2s_tready]
-  connect_bd_net -net xlconstant_1_dout [get_bd_pins const_0/dout] [get_bd_pins axis_stim_syn_vwrap_0/start]
-  connect_bd_net -net zynq_ultra_ps_e_0_pl_resetn1 [get_bd_pins ext_reset_in] [get_bd_pins proc_sys_reset_0/ext_reset_in]
-
-  # Restore current instance
-  current_bd_instance $oldCurInst
-}
 
 
 # Procedure to create entire design; Provide argument to make
@@ -411,6 +237,10 @@ proc create_root_design { parentCell } {
 
   # Set parent object as current
   current_bd_instance $parentObj
+
+  set_property -dict [list \
+  SRC_RM_MAP./mcdma_bd.mcdma_bd {mcdma_bd_inst_0} \
+] [get_bd_designs $design_name]
 
 
   # Create interface ports
@@ -1659,29 +1489,40 @@ Port;FD4A0000;FD4AFFFF;1|FPD;DPDMA;FD4C0000;FD4CFFFF;1|FPD;DDR_XMPU5_CFG;FD05000
   ] $ila_MM2S
 
 
-  # Create instance: mcdma_hier
-  create_hier_cell_mcdma_hier [current_bd_instance .] mcdma_hier
+  # Create instance: mcdma_bd, and set properties
+  set mcdma_bd [ create_bd_cell -type container -reference mcdma_bd mcdma_bd ]
+  set_property -dict [list \
+    CONFIG.ACTIVE_SIM_BD {mcdma_bd.bd} \
+    CONFIG.ACTIVE_SYNTH_BD {mcdma_bd.bd} \
+    CONFIG.ENABLE_DFX {0} \
+    CONFIG.LIST_SIM_BD {mcdma_bd.bd} \
+    CONFIG.LIST_SYNTH_BD {mcdma_bd.bd} \
+    CONFIG.LOCK_PROPAGATE {0} \
+  ] $mcdma_bd
+
+
+  set_property SELECTED_SIM_MODEL rtl  $mcdma_bd
 
   # Create interface connections
-connect_bd_intf_net -intf_net Conn [get_bd_intf_pins mcdma_hier/M_AXIS_MM2S] [get_bd_intf_pins ila_MM2S/SLOT_0_AXIS]
-connect_bd_intf_net -intf_net Conn1 [get_bd_intf_pins mcdma_hier/M00_AXI] [get_bd_intf_pins ila_BRAM/SLOT_0_AXI]
-  connect_bd_intf_net -intf_net S00_AXI_1 [get_bd_intf_pins mcdma_hier/S00_AXI] [get_bd_intf_pins zynq_ultra_ps_e_0/M_AXI_HPM0_FPD]
+connect_bd_intf_net -intf_net axi_mcdma_0_M_AXIS_MM2S [get_bd_intf_pins mcdma_bd/M_AXIS_MM2S] [get_bd_intf_pins ila_MM2S/SLOT_0_AXIS]
+connect_bd_intf_net -intf_net axi_smc1_M00_AXI [get_bd_intf_pins mcdma_bd/S_AXI] [get_bd_intf_pins ila_BRAM/SLOT_0_AXI]
+  connect_bd_intf_net -intf_net zynq_ultra_ps_e_0_M_AXI_HPM0_FPD [get_bd_intf_pins zynq_ultra_ps_e_0/M_AXI_HPM0_FPD] [get_bd_intf_pins mcdma_bd/S00_AXI]
 
   # Create port connections
-  connect_bd_net -net s_axi_lite_aclk_0_1 [get_bd_pins zynq_ultra_ps_e_0/pl_clk0] [get_bd_pins ila_BRAM/clk] [get_bd_pins ila_MM2S/clk] [get_bd_pins zynq_ultra_ps_e_0/maxihpm0_fpd_aclk] [get_bd_pins mcdma_hier/s_axi_aclk]
-  connect_bd_net -net zynq_ultra_ps_e_0_pl_resetn0 [get_bd_pins zynq_ultra_ps_e_0/pl_resetn0] [get_bd_pins mcdma_hier/ext_reset_in]
+  connect_bd_net -net s_axi_lite_aclk_0_1 [get_bd_pins zynq_ultra_ps_e_0/pl_clk0] [get_bd_pins mcdma_bd/s_axi_aclk] [get_bd_pins ila_BRAM/clk] [get_bd_pins ila_MM2S/clk] [get_bd_pins zynq_ultra_ps_e_0/maxihpm0_fpd_aclk]
+  connect_bd_net -net zynq_ultra_ps_e_0_pl_resetn0 [get_bd_pins zynq_ultra_ps_e_0/pl_resetn0] [get_bd_pins mcdma_bd/ext_reset_in]
 
   # Create address segments
-  assign_bd_address -offset 0xA0010000 -range 0x00002000 -target_address_space [get_bd_addr_spaces zynq_ultra_ps_e_0/Data] [get_bd_addr_segs mcdma_hier/SG_BRAM_CTRL/S_AXI/Mem0] -force
-  assign_bd_address -offset 0xA0000000 -range 0x00010000 -target_address_space [get_bd_addr_spaces zynq_ultra_ps_e_0/Data] [get_bd_addr_segs mcdma_hier/axi_mcdma_0/S_AXI_LITE/Reg] -force
-  assign_bd_address -offset 0xA0012000 -range 0x00000080 -target_address_space [get_bd_addr_spaces zynq_ultra_ps_e_0/Data] [get_bd_addr_segs mcdma_hier/axil_reg32_0/S_AXI/reg0] -force
-  assign_bd_address -offset 0xC0000000 -range 0x00008000 -target_address_space [get_bd_addr_spaces mcdma_hier/axi_mcdma_0/Data_MM2S] [get_bd_addr_segs mcdma_hier/MEM_BRAM_CTRL/S_AXI/Mem0] -force
-  assign_bd_address -offset 0xC0000000 -range 0x00008000 -target_address_space [get_bd_addr_spaces mcdma_hier/axi_mcdma_0/Data_S2MM] [get_bd_addr_segs mcdma_hier/MEM_BRAM_CTRL/S_AXI/Mem0] -force
-  assign_bd_address -offset 0xA0010000 -range 0x00002000 -target_address_space [get_bd_addr_spaces mcdma_hier/axi_mcdma_0/Data_SG] [get_bd_addr_segs mcdma_hier/SG_BRAM_CTRL/S_AXI/Mem0] -force
+  assign_bd_address -offset 0xA0010000 -range 0x00002000 -target_address_space [get_bd_addr_spaces zynq_ultra_ps_e_0/Data] [get_bd_addr_segs mcdma_bd/SG_BRAM_CTRL/S_AXI/Mem0] -force
+  assign_bd_address -offset 0xA0000000 -range 0x00010000 -target_address_space [get_bd_addr_spaces zynq_ultra_ps_e_0/Data] [get_bd_addr_segs mcdma_bd/axi_mcdma_0/S_AXI_LITE/Reg] -force
+  assign_bd_address -offset 0xA0012000 -range 0x00000080 -target_address_space [get_bd_addr_spaces zynq_ultra_ps_e_0/Data] [get_bd_addr_segs mcdma_bd/axil_reg32_0/S_AXI/reg0] -force
+  assign_bd_address -offset 0xC0000000 -range 0x00008000 -target_address_space [get_bd_addr_spaces mcdma_bd/axi_mcdma_0/Data_MM2S] [get_bd_addr_segs mcdma_bd/MEM_BRAM_CTRL/S_AXI/Mem0] -force
+  assign_bd_address -offset 0xC0000000 -range 0x00008000 -target_address_space [get_bd_addr_spaces mcdma_bd/axi_mcdma_0/Data_S2MM] [get_bd_addr_segs mcdma_bd/MEM_BRAM_CTRL/S_AXI/Mem0] -force
+  assign_bd_address -offset 0xA0010000 -range 0x00002000 -target_address_space [get_bd_addr_spaces mcdma_bd/axi_mcdma_0/Data_SG] [get_bd_addr_segs mcdma_bd/SG_BRAM_CTRL/S_AXI/Mem0] -force
 
   # Exclude Address Segments
-  exclude_bd_addr_seg -offset 0x44A00000 -range 0x00010000 -target_address_space [get_bd_addr_spaces mcdma_hier/axi_mcdma_0/Data_SG] [get_bd_addr_segs mcdma_hier/axi_mcdma_0/S_AXI_LITE/Reg]
-  exclude_bd_addr_seg -offset 0x00000000 -range 0x00001000 -target_address_space [get_bd_addr_spaces mcdma_hier/axi_mcdma_0/Data_SG] [get_bd_addr_segs mcdma_hier/axil_reg32_0/S_AXI/reg0]
+  exclude_bd_addr_seg -offset 0xA0000000 -range 0x00010000 -target_address_space [get_bd_addr_spaces mcdma_bd/axi_mcdma_0/Data_SG] [get_bd_addr_segs mcdma_bd/axi_mcdma_0/S_AXI_LITE/Reg]
+  exclude_bd_addr_seg -offset 0xA0012000 -range 0x00000080 -target_address_space [get_bd_addr_spaces mcdma_bd/axi_mcdma_0/Data_SG] [get_bd_addr_segs mcdma_bd/axil_reg32_0/S_AXI/reg0]
 
 
   # Restore current instance
