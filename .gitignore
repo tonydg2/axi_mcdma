@@ -1,0 +1,8 @@
+# git is case sensitive by default
+output_products*
+PRJ*
+sw/workspace*
+sw/logs*
+**.log
+**.jou
+**.Xil

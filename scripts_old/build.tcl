@@ -213,9 +213,11 @@ if {$genProj} {
 # Build
 #--------------------------------------------------------------------------------------------------
 if {!$genProj} {
-  #write_hw_platform -minimal -fixed -force -file $outputDir/PRESYNTH_$topEntity.xsa
-  
-  synth_design -top $topEntity -part $partNum
+    #write_checkpoint  -force $outputDir/PRESYNTH
+    #open_checkpoint $outputDir/PRESYNTH.dcp 
+    #write_hw_platform -fixed -force $outputDir/PRESYNTH_$topEntity.xsa ;# no bitstream
+    #exit
+  synth_design -top $topEntity -part $partNum ;#-flatten_hierarchy full
   #write_checkpoint -force $outputDir/post_synth
   #report_timing_summary
   #report_power
