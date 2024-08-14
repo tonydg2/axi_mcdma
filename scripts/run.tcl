@@ -7,6 +7,7 @@ set VivadoSettingsFile $VivadoPath/settings64.sh
 set startTime [clock seconds]
 set TOP "top_bd_wrapper" ;# top entity name or image/bit file generated name...
 
+puts "TCL Version : $tcl_version"
 if {("-h" in $argv) ||("-help" in $argv)} {
   puts "\t-proj : Generate project only."
   puts "\t-name <PROJECT_NAME> : Name of project (used with -proj). Default name used if not specified."
@@ -15,6 +16,14 @@ if {("-h" in $argv) ||("-help" in $argv)} {
   puts "\t-no_bd : For debug, create project with everything except adding block design or block design containers, to be added manually."
   puts "\t-h, -help : Help."
   exit
+}
+
+# tcllib required for zipfile::decode. Can still continue without.
+set tcllib_found true
+if { [catch {package require zipfile::decode} err] } {
+    puts "WARNING - tcllib may not be installed: $err"
+    set tcllib_found false
+    append argv " tcllib_false";# for use in build.tcl
 }
 
 if {![file exist $VivadoPath]} {
@@ -93,9 +102,17 @@ if {!$genProj} {
   set outputDirImage $outputDir
   set buildFolder $timeStampVal\_$ghash_msb 
   file mkdir $outputDirImage/$buildFolder 
-  
+
+  # get bitstream from XSA
+  if {$tcllib_found} {
+    ::zipfile::decode::unzipfile $outputDir/top_bd_wrapper.xsa $outputDir/xsa_temp
+    file copy -force $outputDir/xsa_temp/top_bd_wrapper.bit $outputDir/top_bd_wrapper.bit
+    file delete -force $outputDir/xsa_temp/
+    puts "\n*** XSA embedded bitstream file successfully copied. ***"
+  }
+
   #!! Uncomment these. Don't need for hobby projects only.
-  ###catch {file rename -force $outputDir/top_bd_wrapper.ltx $outputDirImage/$buildFolder/top_bd_wrapper.ltx} ;# copy to rename 
+  ###catch {file rename -force $outputDir/top_bd_wrapper.ltx $outputDirImage/$buildFolder/top_bd_wrapper.ltx}
   ###catch {file rename -force $outputDir/top_bd_wrapper.bit $outputDirImage/$buildFolder/top_bd_wrapper.bit}
   ###catch {file rename -force $outputDir/top_bd_wrapper.xsa $outputDirImage/$buildFolder/top_bd_wrapper.xsa}
 }

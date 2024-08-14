@@ -263,10 +263,16 @@ if {!$genProj} {
 
     write_checkpoint    -force $outputDir/post_route_UPDATED
     ##write_device_image ;# versal
-    write_bitstream     -force $outputDir/$topEntity  ;#may need to add .bit
-    write_debug_probes  -force $outputDir/$topEntity  ;#may need to add .ltx
-    write_hw_platform   -include_bit -fixed -force $outputDir/$topEntity.xsa ;#may need to add .xsa
-    #write_hw_platform   -fixed -force -file $outputDir/$topEntity.xsa ;#may need to add .xsa
+    
+    # write_bitstream is performed during write_hw_platform, so avoid doing it twice. tcllib is used in run.tcl
+    # to unzip XSA and extract bit file for convenience. This is here in case tcllib isn't installed.
+    if {"tcllib_false" in $argv} {
+      #puts "\n\n \t\tTCLLIB_FALSE WRITE_BITSTREAM\n\n";# debug DELETE
+      write_bitstream     -force $outputDir/$topEntity
+    }
+    
+    write_debug_probes  -force $outputDir/$topEntity  ;#
+    write_hw_platform   -include_bit -fixed -force $outputDir/$topEntity.xsa
   }
   close_project -delete
 } else {
