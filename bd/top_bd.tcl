@@ -20,7 +20,7 @@ set script_folder [_tcl::get_script_folder]
 ################################################################
 # Check if script is running in correct Vivado version.
 ################################################################
-set scripts_vivado_version 2023.2
+set scripts_vivado_version 2024.1
 set current_vivado_version [version -short]
 
 if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
@@ -369,9 +369,9 @@ proc create_hier_cell_mcdma_bd { parentCell nameHier } {
 
   # Create port connections
   connect_bd_net -net axi_resetn_0_1 [get_bd_pins proc_sys_reset_0/peripheral_aresetn] [get_bd_pins MEM_BRAM_CTRL/s_axi_aresetn] [get_bd_pins SG_BRAM_CTRL/s_axi_aresetn] [get_bd_pins axi_mcdma_0/axi_resetn]
-  connect_bd_net -net proc_sys_reset_0_interconnect_aresetn [get_bd_pins proc_sys_reset_0/interconnect_aresetn] [get_bd_pins axi_smc1/aresetn] [get_bd_pins axi_smc/aresetn] [get_bd_pins axil_reg32_0/S_AXI_ARESETN]
+  connect_bd_net -net proc_sys_reset_0_interconnect_aresetn [get_bd_pins proc_sys_reset_0/interconnect_aresetn] [get_bd_pins axil_reg32_0/S_AXI_ARESETN] [get_bd_pins axi_smc1/aresetn] [get_bd_pins axi_smc/aresetn]
   connect_bd_net -net proc_sys_reset_0_peripheral_reset [get_bd_pins proc_sys_reset_0/peripheral_reset] [get_bd_pins axis_stim_syn_vwrap_0/rst]
-  connect_bd_net -net s_axi_lite_aclk_0_1 [get_bd_pins s_axi_aclk] [get_bd_pins MEM_BRAM_CTRL/s_axi_aclk] [get_bd_pins SG_BRAM_CTRL/s_axi_aclk] [get_bd_pins axi_mcdma_0/s_axi_aclk] [get_bd_pins axi_mcdma_0/s_axi_lite_aclk] [get_bd_pins axis_stim_syn_vwrap_0/clk] [get_bd_pins axi_smc1/aclk] [get_bd_pins proc_sys_reset_0/slowest_sync_clk] [get_bd_pins axil_reg32_0/S_AXI_ACLK] [get_bd_pins axi_smc/aclk]
+  connect_bd_net -net s_axi_lite_aclk_0_1 [get_bd_pins s_axi_aclk] [get_bd_pins axis_stim_syn_vwrap_0/clk] [get_bd_pins axil_reg32_0/S_AXI_ACLK] [get_bd_pins MEM_BRAM_CTRL/s_axi_aclk] [get_bd_pins SG_BRAM_CTRL/s_axi_aclk] [get_bd_pins axi_mcdma_0/s_axi_aclk] [get_bd_pins axi_mcdma_0/s_axi_lite_aclk] [get_bd_pins axi_smc1/aclk] [get_bd_pins axi_smc/aclk] [get_bd_pins proc_sys_reset_0/slowest_sync_clk]
   connect_bd_net -net user_init_64b_wrappe_0_usr_access_data_o [get_bd_pins user_init/usr_access_data_o] [get_bd_pins axil_reg32_0/timestamp]
   connect_bd_net -net user_init_64b_wrappe_0_value_o [get_bd_pins user_init/value_o] [get_bd_pins axil_reg32_0/git_hash]
   connect_bd_net -net xlconstant_0_dout [get_bd_pins const_1/dout] [get_bd_pins axi_mcdma_0/m_axis_mm2s_tready]
@@ -1391,11 +1391,11 @@ MIO#SD 0#GPIO0 MIO#PMU GPI 0#DPAUX#DPAUX#DPAUX#DPAUX#GPIO1 MIO#PMU GPO 0#PMU GPO
     CONFIG.PSU__PRESET_APPLIED {1} \
     CONFIG.PSU__PROTECTION__DDR_SEGMENTS {NONE} \
     CONFIG.PSU__PROTECTION__ENABLE {0} \
-    CONFIG.PSU__PROTECTION__FPD_SEGMENTS {SA:0xFD1A0000; SIZE:1280; UNIT:KB; RegionTZ:Secure; WrAllowed:Read/Write; subsystemId:PMU Firmware  |   SA:0xFD000000; SIZE:64; UNIT:KB; RegionTZ:Secure; WrAllowed:Read/Write;\
-subsystemId:PMU Firmware  |   SA:0xFD010000; SIZE:64; UNIT:KB; RegionTZ:Secure; WrAllowed:Read/Write; subsystemId:PMU Firmware  |   SA:0xFD020000; SIZE:64; UNIT:KB; RegionTZ:Secure; WrAllowed:Read/Write;\
-subsystemId:PMU Firmware  |   SA:0xFD030000; SIZE:64; UNIT:KB; RegionTZ:Secure; WrAllowed:Read/Write; subsystemId:PMU Firmware  |   SA:0xFD040000; SIZE:64; UNIT:KB; RegionTZ:Secure; WrAllowed:Read/Write;\
-subsystemId:PMU Firmware  |   SA:0xFD050000; SIZE:64; UNIT:KB; RegionTZ:Secure; WrAllowed:Read/Write; subsystemId:PMU Firmware  |   SA:0xFD610000; SIZE:512; UNIT:KB; RegionTZ:Secure; WrAllowed:Read/Write;\
-subsystemId:PMU Firmware  |   SA:0xFD5D0000; SIZE:64; UNIT:KB; RegionTZ:Secure; WrAllowed:Read/Write; subsystemId:PMU Firmware  |  SA:0xFD1A0000 ; SIZE:1280; UNIT:KB; RegionTZ:Secure ; WrAllowed:Read/Write;\
+    CONFIG.PSU__PROTECTION__FPD_SEGMENTS {SA:0xFD1A0000; SIZE:1280; UNIT:KB; RegionTZ:Secure; WrAllowed:Read/Write; subsystemId:PMU Firmware   |    SA:0xFD000000; SIZE:64; UNIT:KB; RegionTZ:Secure; WrAllowed:Read/Write;\
+subsystemId:PMU Firmware   |    SA:0xFD010000; SIZE:64; UNIT:KB; RegionTZ:Secure; WrAllowed:Read/Write; subsystemId:PMU Firmware   |    SA:0xFD020000; SIZE:64; UNIT:KB; RegionTZ:Secure; WrAllowed:Read/Write;\
+subsystemId:PMU Firmware   |    SA:0xFD030000; SIZE:64; UNIT:KB; RegionTZ:Secure; WrAllowed:Read/Write; subsystemId:PMU Firmware   |    SA:0xFD040000; SIZE:64; UNIT:KB; RegionTZ:Secure; WrAllowed:Read/Write;\
+subsystemId:PMU Firmware   |    SA:0xFD050000; SIZE:64; UNIT:KB; RegionTZ:Secure; WrAllowed:Read/Write; subsystemId:PMU Firmware   |    SA:0xFD610000; SIZE:512; UNIT:KB; RegionTZ:Secure; WrAllowed:Read/Write;\
+subsystemId:PMU Firmware   |    SA:0xFD5D0000; SIZE:64; UNIT:KB; RegionTZ:Secure; WrAllowed:Read/Write; subsystemId:PMU Firmware   |   SA:0xFD1A0000 ; SIZE:1280; UNIT:KB; RegionTZ:Secure ; WrAllowed:Read/Write;\
 subsystemId:Secure Subsystem} \
     CONFIG.PSU__PROTECTION__LPD_SEGMENTS {SA:0xFF980000; SIZE:64; UNIT:KB; RegionTZ:Secure; WrAllowed:Read/Write; subsystemId:PMU Firmware| SA:0xFF5E0000; SIZE:2560; UNIT:KB; RegionTZ:Secure; WrAllowed:Read/Write;\
 subsystemId:PMU Firmware| SA:0xFFCC0000; SIZE:64; UNIT:KB; RegionTZ:Secure; WrAllowed:Read/Write; subsystemId:PMU Firmware| SA:0xFF180000; SIZE:768; UNIT:KB; RegionTZ:Secure; WrAllowed:Read/Write; subsystemId:PMU\
@@ -1584,18 +1584,79 @@ Port;FD4A0000;FD4AFFFF;1|FPD;DPDMA;FD4C0000;FD4CFFFF;1|FPD;DDR_XMPU5_CFG;FD05000
   # Create instance: ila_BRAM, and set properties
   set ila_BRAM [ create_bd_cell -type ip -vlnv xilinx.com:ip:ila:6.2 ila_BRAM ]
   set_property -dict [list \
+    CONFIG.ALL_PROBE_SAME_MU_CNT {2} \
     CONFIG.C_ADV_TRIGGER {true} \
     CONFIG.C_DATA_DEPTH {2048} \
+    CONFIG.C_ENABLE_ILA_AXI_MON {true} \
     CONFIG.C_EN_STRG_QUAL {1} \
+    CONFIG.C_MONITOR_TYPE {AXI} \
+    CONFIG.C_NUM_OF_PROBES {44} \
+    CONFIG.C_PROBE0_MU_CNT {2} \
+    CONFIG.C_PROBE10_MU_CNT {2} \
+    CONFIG.C_PROBE11_MU_CNT {2} \
+    CONFIG.C_PROBE12_MU_CNT {2} \
+    CONFIG.C_PROBE13_MU_CNT {2} \
+    CONFIG.C_PROBE14_MU_CNT {2} \
+    CONFIG.C_PROBE15_MU_CNT {2} \
+    CONFIG.C_PROBE16_MU_CNT {2} \
+    CONFIG.C_PROBE17_MU_CNT {2} \
+    CONFIG.C_PROBE18_MU_CNT {2} \
+    CONFIG.C_PROBE19_MU_CNT {2} \
+    CONFIG.C_PROBE1_MU_CNT {2} \
+    CONFIG.C_PROBE20_MU_CNT {2} \
+    CONFIG.C_PROBE21_MU_CNT {2} \
+    CONFIG.C_PROBE22_MU_CNT {2} \
+    CONFIG.C_PROBE23_MU_CNT {2} \
+    CONFIG.C_PROBE24_MU_CNT {2} \
+    CONFIG.C_PROBE25_MU_CNT {2} \
+    CONFIG.C_PROBE26_MU_CNT {2} \
+    CONFIG.C_PROBE27_MU_CNT {2} \
+    CONFIG.C_PROBE28_MU_CNT {2} \
+    CONFIG.C_PROBE29_MU_CNT {2} \
+    CONFIG.C_PROBE2_MU_CNT {2} \
+    CONFIG.C_PROBE30_MU_CNT {2} \
+    CONFIG.C_PROBE31_MU_CNT {2} \
+    CONFIG.C_PROBE32_MU_CNT {2} \
+    CONFIG.C_PROBE33_MU_CNT {2} \
+    CONFIG.C_PROBE34_MU_CNT {2} \
+    CONFIG.C_PROBE35_MU_CNT {2} \
+    CONFIG.C_PROBE36_MU_CNT {2} \
+    CONFIG.C_PROBE37_MU_CNT {2} \
+    CONFIG.C_PROBE38_MU_CNT {2} \
+    CONFIG.C_PROBE39_MU_CNT {2} \
+    CONFIG.C_PROBE3_MU_CNT {2} \
+    CONFIG.C_PROBE40_MU_CNT {2} \
+    CONFIG.C_PROBE41_MU_CNT {2} \
+    CONFIG.C_PROBE42_MU_CNT {2} \
+    CONFIG.C_PROBE43_MU_CNT {2} \
+    CONFIG.C_PROBE4_MU_CNT {2} \
+    CONFIG.C_PROBE5_MU_CNT {2} \
+    CONFIG.C_PROBE6_MU_CNT {2} \
+    CONFIG.C_PROBE7_MU_CNT {2} \
+    CONFIG.C_PROBE8_MU_CNT {2} \
+    CONFIG.C_PROBE9_MU_CNT {2} \
   ] $ila_BRAM
 
 
   # Create instance: ila_MM2S, and set properties
   set ila_MM2S [ create_bd_cell -type ip -vlnv xilinx.com:ip:ila:6.2 ila_MM2S ]
   set_property -dict [list \
+    CONFIG.ALL_PROBE_SAME_MU_CNT {2} \
     CONFIG.C_ADV_TRIGGER {true} \
     CONFIG.C_DATA_DEPTH {2048} \
+    CONFIG.C_ENABLE_ILA_AXI_MON {true} \
     CONFIG.C_EN_STRG_QUAL {1} \
+    CONFIG.C_MONITOR_TYPE {AXI} \
+    CONFIG.C_NUM_OF_PROBES {9} \
+    CONFIG.C_PROBE0_MU_CNT {2} \
+    CONFIG.C_PROBE1_MU_CNT {2} \
+    CONFIG.C_PROBE2_MU_CNT {2} \
+    CONFIG.C_PROBE3_MU_CNT {2} \
+    CONFIG.C_PROBE4_MU_CNT {2} \
+    CONFIG.C_PROBE5_MU_CNT {2} \
+    CONFIG.C_PROBE6_MU_CNT {2} \
+    CONFIG.C_PROBE7_MU_CNT {2} \
+    CONFIG.C_PROBE8_MU_CNT {2} \
     CONFIG.C_SLOT_0_AXI_PROTOCOL {AXI4S} \
   ] $ila_MM2S
 
@@ -1604,12 +1665,12 @@ Port;FD4A0000;FD4AFFFF;1|FPD;DPDMA;FD4C0000;FD4CFFFF;1|FPD;DDR_XMPU5_CFG;FD05000
   create_hier_cell_mcdma_bd [current_bd_instance .] mcdma_bd
 
   # Create interface connections
-connect_bd_intf_net -intf_net axi_mcdma_0_M_AXIS_MM2S [get_bd_intf_pins ila_MM2S/SLOT_0_AXIS] [get_bd_intf_pins mcdma_bd/M_AXIS_MM2S]
-connect_bd_intf_net -intf_net axi_smc1_M00_AXI [get_bd_intf_pins ila_BRAM/SLOT_0_AXI] [get_bd_intf_pins mcdma_bd/S_AXI]
+connect_bd_intf_net -intf_net axi_mcdma_0_M_AXIS_MM2S [get_bd_intf_pins mcdma_bd/M_AXIS_MM2S] [get_bd_intf_pins ila_MM2S/SLOT_0_AXIS]
+connect_bd_intf_net -intf_net axi_smc1_M00_AXI [get_bd_intf_pins mcdma_bd/S_AXI] [get_bd_intf_pins ila_BRAM/SLOT_0_AXI]
   connect_bd_intf_net -intf_net zynq_ultra_ps_e_0_M_AXI_HPM0_FPD [get_bd_intf_pins zynq_ultra_ps_e_0/M_AXI_HPM0_FPD] [get_bd_intf_pins mcdma_bd/S00_AXI]
 
   # Create port connections
-  connect_bd_net -net s_axi_lite_aclk_0_1 [get_bd_pins zynq_ultra_ps_e_0/pl_clk0] [get_bd_pins zynq_ultra_ps_e_0/maxihpm0_fpd_aclk] [get_bd_pins ila_MM2S/clk] [get_bd_pins ila_BRAM/clk] [get_bd_pins mcdma_bd/s_axi_aclk]
+  connect_bd_net -net s_axi_lite_aclk_0_1 [get_bd_pins zynq_ultra_ps_e_0/pl_clk0] [get_bd_pins mcdma_bd/s_axi_aclk] [get_bd_pins ila_BRAM/clk] [get_bd_pins ila_MM2S/clk] [get_bd_pins zynq_ultra_ps_e_0/maxihpm0_fpd_aclk]
   connect_bd_net -net zynq_ultra_ps_e_0_pl_resetn0 [get_bd_pins zynq_ultra_ps_e_0/pl_resetn0] [get_bd_pins mcdma_bd/ext_reset_in]
 
   # Create address segments
