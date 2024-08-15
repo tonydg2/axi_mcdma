@@ -2,13 +2,42 @@
 /* MCDMA   PG288 */
 /**********************************/
 
+
+
+
 `timescale 1ns / 1ps  // <time_unit>/<time_precision>
 
-module axil_stim_dma 
+module axil_stim_dma #
 	(
-		input         start,
-    output logic  done,
-    axil_if.src   m_axil_if
+		parameter integer DATA_WIDTH	= 32,
+		parameter integer ADDR_WIDTH	= 32
+	)
+	(
+		input                           start         ,
+    output logic                    done          ,
+    axil_if.src                     m_axil_if
+
+    //input   										    M_AXI_aclk		,
+		//input   										    M_AXI_aresetn	,
+		//output [ADDR_WIDTH-1 : 0] 	    M_AXI_awaddr	,
+		//output [2 : 0] 							    M_AXI_awprot	,
+		//output  										    M_AXI_awvalid	,
+		//input   										    M_AXI_awready	,
+		//output [DATA_WIDTH-1 : 0] 	    M_AXI_wdata		,
+		//output [(DATA_WIDTH/8)-1 : 0]   M_AXI_wstrb		,
+		//output  										    M_AXI_wvalid	,
+		//input   										    M_AXI_wready	,
+		//input  [1 : 0] 							    M_AXI_bresp		,
+		//input   										    M_AXI_bvalid	,
+		//output  										    M_AXI_bready	,
+		//output [ADDR_WIDTH-1 : 0] 	    M_AXI_araddr	,
+		//output [2 : 0] 							    M_AXI_arprot	,
+		//output  										    M_AXI_arvalid	,
+		//input   										    M_AXI_arready	,
+		//input  [DATA_WIDTH-1 : 0] 	    M_AXI_rdata		,
+		//input  [1 : 0] 							    M_AXI_rresp		,
+		//input   										    M_AXI_rvalid	,
+		//output  										    M_AXI_rready
 	);
 
 //-------------------------------------------------------------------------------------------------
@@ -19,10 +48,10 @@ module axil_stim_dma
 //localparam ADDR_MEM = 32'hC000_0000;  // offset of memory bram
 //localparam ADDR_REG = 32'hA001_2000;
 
-localparam [m_axil_if.ADDR_WIDTH-1:0] ADDR_SG  = 32'hA001_0000;
-localparam [m_axil_if.ADDR_WIDTH-1:0] ADDR_DMA = 32'hA000_0000;
-localparam [m_axil_if.ADDR_WIDTH-1:0] ADDR_MEM = 32'hC000_0000;
-localparam [m_axil_if.ADDR_WIDTH-1:0] ADDR_REG = 32'hA001_2000;
+localparam [ADDR_WIDTH-1:0] ADDR_SG  = 32'hA001_0000;
+localparam [ADDR_WIDTH-1:0] ADDR_DMA = 32'hA000_0000;
+localparam [ADDR_WIDTH-1:0] ADDR_MEM = 32'hC000_0000;
+localparam [ADDR_WIDTH-1:0] ADDR_REG = 32'hA001_2000;
 
 // descriptor field offsets
 // CH0 S2MM descriptor
@@ -71,6 +100,21 @@ localparam S_CH1TD  = 12'h590;
     // Test rd/wr reg's
     //---------------------------------------------------------------------------------------------
     
+    //WR(ADDR_REG + 8'h18, 32'hAAAA_0666);
+    //RD(ADDR_REG + 8'h18);
+
+    //RD(ADDR_REG + 8'h0C);
+    //RD(ADDR_REG + 8'h0C);#1us;
+    //RD(ADDR_REG + 8'h0C);#1us;
+    //RD(ADDR_REG + 8'h10);#1us;
+    //RD(ADDR_REG + 8'h18);#1us;
+    
+//    WR(ADDR_REG + 8'h18, 32'hBBBB0666);
+//    //RD(ADDR_REG + 8'h18);#1us;
+//    //RD(ADDR_REG + 8'h0C);#1us;
+//    //RD(ADDR_REG + 8'h0C);#1us;
+//    WR(ADDR_REG + 8'h18, 32'hAAAA0666);
+//    //RD(ADDR_REG + 8'h18);#1us;
     WR(ADDR_REG + 8'h18, 32'hAAAA0777); // ADDR_REG = 32'hA001_2000
     WR(ADDR_REG + 8'h1C, 32'hAAAA1777);
     WR(ADDR_REG + 8'h20, 32'hAAAA2777);
@@ -92,7 +136,46 @@ localparam S_CH1TD  = 12'h590;
     RD(ADDR_REG + 8'h34);
     RD(ADDR_REG + 8'h38);
     RD(ADDR_REG + 8'h3C);
-    #1us;//$stop;
+
+
+//    WR(ADDR_REG + 8'h38, 32'hAAAA8777);#1us;//#100ns;
+//    WR(ADDR_REG + 8'h3C, 32'hAAAA9777);#1us;//#100ns;
+
+//    WR(ADDR_REG + 8'h38, 32'hAAAA8777);
+//    WR(ADDR_REG + 8'h38, 32'hAAAA8777);
+//    WR(ADDR_REG + 8'h38, 32'hAAAA8777);
+//    WR(ADDR_REG + 8'h38, 32'hAAAA8777);
+//    WR(ADDR_REG + 8'h38, 32'hAAAA8777);
+//    WR(ADDR_REG + 8'h38, 32'hAAAA8777);
+//    
+//    WR(ADDR_REG + 8'h3C, 32'hAAAA9777);
+//    WR(ADDR_REG + 8'h3C, 32'hAAAA9777);
+//    WR(ADDR_REG + 8'h3C, 32'hAAAA9777);
+//    WR(ADDR_REG + 8'h3C, 32'hAAAA9777);
+//    WR(ADDR_REG + 8'h3C, 32'hAAAA9777);
+//    WR(ADDR_REG + 8'h3C, 32'hAAAA9777);
+    
+//    RD(ADDR_REG + 8'h18);
+//    RD(ADDR_REG + 8'h1C);
+//    RD(ADDR_REG + 8'h20);
+//    RD(ADDR_REG + 8'h24);
+//    RD(ADDR_REG + 8'h28);
+//    RD(ADDR_REG + 8'h2C);
+//    RD(ADDR_REG + 8'h30);
+//    RD(ADDR_REG + 8'h34);
+//    RD(ADDR_REG + 8'h38);
+//    RD(ADDR_REG + 8'h38);
+//    RD(ADDR_REG + 8'h38);
+//    RD(ADDR_REG + 8'h38);
+//    RD(ADDR_REG + 8'h38);
+//    RD(ADDR_REG + 8'h38);
+//    RD(ADDR_REG + 8'h3C);
+//    RD(ADDR_REG + 8'h3C);
+//    RD(ADDR_REG + 8'h3C);
+//    RD(ADDR_REG + 8'h3C);
+//    RD(ADDR_REG + 8'h3C);
+//    RD(ADDR_REG + 8'h3C);
+    #1us;$stop;
 
     //---------------------------------------------------------------------------------------------
     // load/write descriptors into SG bram
@@ -146,6 +229,10 @@ localparam S_CH1TD  = 12'h590;
     WR({ADDR_DMA + M_CH1TD}, {ADDR_SG + NXDS_M1});  // TD for ch1
 
 
+
+
+
+
 //    //MM2S DMA config
 //    // use identical descriptors from S2MM, in different location, should read the data that was written by S2MM and populate the M_AXIS_MM2S interface
 //    WR({ADDR_DMA + MM2S_CD}, {ADDR_SG,8'h80});  //
@@ -153,48 +240,51 @@ localparam S_CH1TD  = 12'h590;
 //    WR({ADDR_DMA + MM2S_TD}, {ADDR_SG,8'hC0});  //
 
     
+    
+    
 //    wait(dma_top_tb.top_bd_wrapper_i.s2mm_introut_0 == 1'b1);
-  #5us;$stop;
+
   end 
 
 //-------------------------------------------------------------------------------------------------
 // signals
 //-------------------------------------------------------------------------------------------------
 
-  logic [m_axil_if.ADDR_WIDTH-1:0]        araddr=0  ;
-  logic                                   arvalid=0 ;
-  logic [m_axil_if.ADDR_WIDTH-1:0]        awaddr=0  ;
-  logic                                   awvalid=0 ;
-  logic                                   bready=0  ;
-  logic                                   rready=0  ;
-  logic [m_axil_if.DATA_WIDTH-1:0]        wdata=0, rdata   ;
-  logic                                   wvalid=0  ;
-  logic                                   bvalid    ;
-  logic [2:0]                             awprot, arprot;
-  logic [(m_axil_if.DATA_WIDTH/8)-1 : 0]  wstrb;
+  logic [ADDR_WIDTH-1:0]      araddr=0  ;
+  logic                       arvalid=0 ;
+  logic [ADDR_WIDTH-1:0]      awaddr=0  ;
+  logic                       awvalid=0 ;
+  logic                       bready=0  ;
+  logic                       rready=0  ;
+  logic [DATA_WIDTH-1:0]      wdata=0, rdata   ;
+  logic                       wvalid=0  ;
+  logic                       bvalid    ;
+
+  logic [2:0] awprot, arprot;
+  logic [(DATA_WIDTH/8)-1 : 0]  wstrb;
 
   logic  clk;
-  assign clk = m_axil_if.aclk;
+  assign clk = M_AXI_aclk;
 
-  assign m_axil_if.awaddr   = awaddr  ;
-  assign m_axil_if.awprot   = awprot  ;
-  assign m_axil_if.awvalid  = awvalid ;
-  assign m_axil_if.wdata	  = wdata	  ;
-  assign m_axil_if.wstrb	  = wstrb	  ;
-  assign m_axil_if.wvalid   = wvalid  ;
-  assign m_axil_if.bready   = bready  ;
-  assign m_axil_if.araddr   = araddr  ;
-  assign m_axil_if.arprot   = arprot  ;
-  assign m_axil_if.arvalid  = arvalid ;
-  assign m_axil_if.rready   = rready  ;
-  assign bvalid             = m_axil_if.bvalid;
-  assign rdata	            = m_axil_if.rdata ;
+  assign M_AXI_awaddr   = awaddr  ;
+  assign M_AXI_awprot   = awprot  ;
+  assign M_AXI_awvalid  = awvalid ;
+  assign M_AXI_wdata	  = wdata	  ;
+  assign M_AXI_wstrb	  = wstrb	  ;
+  assign M_AXI_wvalid   = wvalid  ;
+  assign M_AXI_bready   = bready  ;
+  assign M_AXI_araddr   = araddr  ;
+  assign M_AXI_arprot   = arprot  ;
+  assign M_AXI_arvalid  = arvalid ;
+  assign M_AXI_rready   = rready  ;
+  assign bvalid         = M_AXI_bvalid;
+  assign rdata	        = M_AXI_rdata ;
 
   logic awready, wready, arready, rvalid;
-  assign awready  = m_axil_if.awready ;
-  assign wready   = m_axil_if.wready  ;
-  assign arready  = m_axil_if.arready ;     
-  assign rvalid   = m_axil_if.rvalid  ; 
+  assign awready  = M_AXI_awready ;
+  assign wready   = M_AXI_wready  ;
+  assign arready  = M_AXI_arready ;     
+  assign rvalid   = M_AXI_rvalid  ; 
 
 
 //-------------------------------------------------------------------------------------------------
@@ -215,8 +305,8 @@ localparam S_CH1TD  = 12'h590;
 //  arready	  //  rready    
 
   task RD;
-    input  [m_axil_if.ADDR_WIDTH-1:0] addr;
-    reg    [m_axil_if.DATA_WIDTH-1:0] data;
+    input  [ADDR_WIDTH-1:0] addr;
+    reg    [DATA_WIDTH-1:0] data;
     begin
 
       @(posedge clk);
@@ -253,8 +343,8 @@ localparam S_CH1TD  = 12'h590;
 //  awready	    //  wready  
 
   task WR;
-    input [m_axil_if.ADDR_WIDTH-1:0] addr;
-    input [m_axil_if.DATA_WIDTH-1:0] data;
+    input [ADDR_WIDTH-1:0] addr;
+    input [DATA_WIDTH-1:0] data;
     begin
 
       @(posedge clk);
