@@ -30,5 +30,11 @@ comp = client.get_component(name="mcdma_ex")
 status = comp.import_files(from_loc=sourceDir, files=["helpFunctions.c", "helpFunctions.h", "mcdma_polled_adg.c"], dest_dir_in_cmp = "src")
 comp.build()
 
+comp = client.create_app_component(name="mcdma_custm",platform = platform_xpmf,domain = "standalone_psu_cortexa53_0")
+comp = client.get_component(name="mcdma_custm")
+status = comp.import_files(from_loc=sourceDir, files=["helpFunctions.c", "helpFunctions.h", "mcdma_custom.c"], dest_dir_in_cmp = "src")
+comp.build()
+
+
 vitis.dispose()
 
