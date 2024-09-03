@@ -14,7 +14,7 @@ module led_cnt_wrapper (
     .clk100 (clk100   ),
     .div_i  (div_i    ),
     .wren_i (wren_i   ),
-    .led_o  (leds_o   )
+    .led_o  (led_o    )
   );
 
 endmodule

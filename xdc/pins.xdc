@@ -46,8 +46,8 @@ set_property PACKAGE_PIN B5 [get_ports {BT_HCI_CTS      }];#
 set_property PACKAGE_PIN B6 [get_ports {HD_GPIO_14      }];#  
 set_property PACKAGE_PIN A7 [get_ports {HD_GPIO_7       }];#  
 #                                                          #  
-set_property PACKAGE_PIN A9 [get_ports {RADIO_LED[0]    }];#  
-set_property PACKAGE_PIN B9 [get_ports {RADIO_LED[1]    }];#  
+set_property PACKAGE_PIN A9 [get_ports {RADIO_LED[0]    }];#  D9 = Orange/Yellow
+set_property PACKAGE_PIN B9 [get_ports {RADIO_LED[1]    }];#  D10 = BLUE
 set_property PACKAGE_PIN C7 [get_ports {HD_GPIO_13      }];#  
 #                                                          #  
 set_property PACKAGE_PIN C5 [get_ports {HD_GPIO_15      }];#  

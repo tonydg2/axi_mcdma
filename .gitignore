@@ -1,3 +1,9 @@
 # git is case sensitive by default
 output_products*
 PRJ* 
+
+**vivado.log
+**vivado.jou
+
+**/logs/
+**/workspace*/
